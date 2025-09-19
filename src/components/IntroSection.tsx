@@ -76,7 +76,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
         onClick={onStart}
         className={`z-10 mt-10 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xl font-bold rounded-full shadow-lg border-2 border-blue-300 hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 drop-shadow-[0_0_8px_#38bdf8] ${inView ? 'animate-fade-in' : ''}`}
       >
-        <span className="inline-flex items-center gap-2">
+        <span className="inline-flex items-center gap-2 animation-fade-in">
           시작하기
         </span>
       </button>

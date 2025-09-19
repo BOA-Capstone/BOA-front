@@ -1,23 +1,38 @@
-import React from 'react';
-import type { ReactNode } from 'react';
+import Sidebar, { type DashboardPage } from '../components/Sidebar';
+import Dashboard from '../pages/Dashboard';
+import VisualizationSection from '../components/VisualizationSection';
+import DetailSection from '../components/DetailSection';
+import DashboardSection from '../components/DashboardSection';
+import React, { useState } from 'react';
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
+const MainLayout: React.FC = () => {
+  const [page, setPage] = useState<DashboardPage>('dashboard');
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  let content;
+  switch (page) {
+    case 'dashboard':
+      content = <Dashboard />;
+      break;
+    case 'visualization':
+      content = <VisualizationSection />;
+      break;
+    case 'detail':
+      content = <DetailSection />;
+      break;
+    case 'stats':
+      content = <DashboardSection />;
+      break;
+    case 'settings':
+      content = <div className="p-8">설정 페이지 준비중...</div>;
+      break;
+    default:
+      content = <Dashboard />;
+  }
+
   return (
-  <div className="flex h-screen w-screen bg-gray-50">
+    <div className="flex h-screen w-screen bg-gray-50">
       {/* 사이드바 */}
-      <aside className="w-64 bg-blue-900 text-white flex flex-col p-4">
-        <div className="text-2xl font-bold mb-8">BOA Dashboard</div>
-        <nav className="flex flex-col gap-4">
-          <a href="#" className="hover:text-blue-300">대시보드</a>
-          <a href="#" className="hover:text-blue-300">충전소 관리</a>
-          <a href="#" className="hover:text-blue-300">에너지 거래</a>
-          <a href="#" className="hover:text-blue-300">설정</a>
-        </nav>
-      </aside>
+      <Sidebar current={page} onNavigate={setPage} />
       {/* 메인 영역 */}
       <div className="flex-1 flex flex-col">
         {/* 헤더 */}
@@ -25,7 +40,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <div className="text-xl font-semibold">전기차 충전소 스케쥴링 시스템</div>
         </header>
         {/* 콘텐츠 */}
-        <main className="flex-1 p-8">{children}</main>
+        <main className="flex-1 p-8">{content}</main>
       </div>
     </div>
   );
