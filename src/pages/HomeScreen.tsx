@@ -17,11 +17,11 @@ const HomeScreen: React.FC = () => {
       <Dashboard />
     </MainLayout>
   ) : (
-    <>
-      <IntroSection onStart={handleStart} />
-      <AboutSection />
-      <FeatureSection />
-    </>
+    <div className="snap-y snap-mandatory h-screen overflow-y-auto">
+      <IntroSection onStart={handleStart} className="snap-start" />
+      <AboutSection className="snap-start" />
+      <FeatureSection className="snap-start" />
+    </div>
   );
 };
 

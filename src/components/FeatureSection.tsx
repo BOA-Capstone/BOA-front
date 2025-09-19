@@ -1,8 +1,12 @@
 import React from 'react';
 
-const FeatureSection: React.FC = () => {
+interface FeatureSectionProps {
+  className?: string;
+}
+
+const FeatureSection: React.FC<FeatureSectionProps> = ({ className }) => {
   return (
-  <section className="w-full min-h-screen flex flex-col items-center justify-center bg-gray-50">
+    <section className={`w-full min-h-screen flex flex-col items-center justify-center bg-gray-50 ${className || ''}`}>
       <h2 className="text-3xl md:text-4xl font-bold mb-6 animate-slide-up">주요 기능</h2>
       <ul className="max-w-2xl text-lg md:text-xl space-y-6 animate-fade-in">
         <li>🔋 실시간 충전소 현황 및 위치 지도</li>

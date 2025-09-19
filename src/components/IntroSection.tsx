@@ -2,11 +2,12 @@ import React from 'react';
 
 interface IntroSectionProps {
   onStart?: () => void;
+  className?: string;
 }
 
-const IntroSection: React.FC<IntroSectionProps> = ({ onStart }) => {
+const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
   return (
-    <section className="relative flex flex-col min-h-screen w-screen items-center justify-center bg-gradient-to-br from-[#0f172a] via-blue-900 to-[#1e293b] animate-fade-in">
+    <section className={`relative flex flex-col min-h-screen w-screen items-center justify-center bg-gradient-to-br from-[#0f172a] via-blue-900 to-[#1e293b] animate-fade-in ${className || ''}`}>
       <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
