@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import IntroSection from '../components/IntroSection';
 import AboutSection from '../components/AboutSection';
-import FeatureSection from '../components/FeatureSection';
+import VisualizationSection from '../components/VisualizationSection';
+import DetailSection from '../components/DetailSection';
+import DashboardSection from '../components/DashboardSection';
 import MainLayout from '../layouts/MainLayout';
 import Dashboard from './Dashboard';
 
@@ -20,7 +22,9 @@ const HomeScreen: React.FC = () => {
     <div className="snap-y snap-mandatory h-screen overflow-y-auto">
       <IntroSection onStart={handleStart} className="snap-start" />
       <AboutSection className="snap-start" />
-      <FeatureSection className="snap-start" />
+  <VisualizationSection className="snap-start" />
+  <DetailSection className="snap-start" />
+  <DashboardSection className="snap-start" />
     </div>
   );
 };
