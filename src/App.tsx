@@ -1,14 +1,14 @@
 
 import { useState } from 'react';
-import IntroScreen from './pages/IntroScreen';
 import MainLayout from './layouts/MainLayout';
 import Dashboard from './pages/Dashboard';
+import IntroSection from './components/IntroSection';
 
 function App() {
   const [started, setStarted] = useState(false);
 
   if (!started) 
-    return <IntroScreen onStart={() => setStarted(true)} />;
+    return <IntroSection onStart={() => setStarted(true)} />;
 
   return (
     <MainLayout>
