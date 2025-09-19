@@ -6,11 +6,12 @@ import DetailSection from '../components/DetailSection';
 import DashboardSection from '../components/DashboardSection';
 import MainLayout from '../layouts/MainLayout';
 
-const HomeScreen: React.FC = () => {
+const HomeScreen: React.FC<{ onStart?: () => void }> = ({ onStart }) => {
   const [started, setStarted] = useState(false);
 
   const handleStart = () => {
     setStarted(true);
+    if (onStart) onStart();
   };
 
   return started ? (

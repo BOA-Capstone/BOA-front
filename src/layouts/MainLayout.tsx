@@ -5,7 +5,7 @@ import DetailSection from '../components/DetailSection';
 import DashboardSection from '../components/DashboardSection';
 import React, { useState } from 'react';
 
-const MainLayout: React.FC = () => {
+const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
   const [page, setPage] = useState<DashboardPage>('dashboard');
 
   let content;
@@ -32,7 +32,10 @@ const MainLayout: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-gray-50">
       {/* 사이드바 */}
-      <Sidebar current={page} onNavigate={setPage} />
+      <Sidebar current={page} onNavigate={(page) => {
+        if (page === 'home' && onGoHome) onGoHome();
+        else setPage(page);
+      }} />
       {/* 메인 영역 */}
       <div className="flex-1 flex flex-col">
         {/* 헤더 */}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type DashboardPage = 'dashboard' | 'visualization' | 'detail' | 'stats' | 'settings';
+export type DashboardPage = 'dashboard' | 'visualization' | 'detail' | 'stats' | 'settings' | 'home';
 
 export interface SidebarProps {
   current: DashboardPage;
@@ -28,6 +28,14 @@ const Sidebar: React.FC<SidebarProps> = ({ current, onNavigate }) => {
           className={`text-left hover:text-blue-300 ${current === 'settings' ? 'font-bold text-blue-300' : ''}`}
         >설정</button>
       </nav>
+      <div className="mt-auto pt-8">
+        <button
+          className="w-full py-2 rounded hover:bg-blue-600 text-white font-semibold transition-all"
+          onClick={() => onNavigate('home')}
+        >
+          처음으로
+        </button>
+      </div>
     </aside>
   );
 };
