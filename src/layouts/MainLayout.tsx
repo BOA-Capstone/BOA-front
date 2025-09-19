@@ -7,7 +7,7 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+  <div className="flex min-h-screen w-screen bg-gray-50">
       {/* 사이드바 */}
       <aside className="w-64 bg-blue-900 text-white flex flex-col p-4">
         <div className="text-2xl font-bold mb-8">BOA Dashboard</div>
@@ -21,7 +21,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       {/* 메인 영역 */}
       <div className="flex-1 flex flex-col">
         {/* 헤더 */}
-        <header className="h-16 bg-white shadow flex items-center px-8">
+        <header className="h-16 bg-black shadow flex items-center px-8">
           <div className="text-xl font-semibold">전기차 충전소 스케쥴링 시스템</div>
         </header>
         {/* 콘텐츠 */}
