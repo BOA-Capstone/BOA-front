@@ -4,7 +4,7 @@ import React from 'react';
 const IntroScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
   return (
     <div className="relative flex flex-col min-h-screen w-screen items-center justify-center bg-gradient-to-br from-[#0f172a] via-blue-900 to-[#1e293b] overflow-hidden animate-fade-in">
-      {/* SVG 전자 회로 + 번개 아이콘 배경 */}
+      {/* SVG 전자 회로 */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -71,13 +71,13 @@ const IntroScreen: React.FC<{ onStart: () => void }> = ({ onStart }) => {
             <path d="M80 320 V480" stroke="#38bdf8" strokeWidth="2" />
             <circle cx="80" cy="320" r="7" fill="#38bdf8" />
             <circle cx="80" cy="480" r="7" fill="#38bdf8" />
-            <path d="M240 320 V480" stroke="#38bdf8" strokeWidth="2" /> 
             {/* 우측 중앙 세로 */}
             <path d="M1360 320 V480" stroke="#22d3ee" strokeWidth="2" />
             <circle cx="1360" cy="320" r="7" fill="#22d3ee" />
             <circle cx="1360" cy="480" r="7" fill="#22d3ee" />
           </g>
-        </svg>      {/* 로고 이미지 영역 (추후 assets/에 파일 추가 시 src 교체) */}
+        </svg>      
+        {/* 로고 이미지 영역 (추후 assets/에 파일 추가 시 src 교체) */}
       <div className="z-10 mb-8 animate-slide-down">
         {/* <img src="/src/assets/logo.png" alt="BOA Logo" className="w-24 h-24 mx-auto" /> */}
       </div>
