@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ current, onNavigate }) => {
       </nav>
       <div className="mt-auto pt-8">
         <button
-          className="w-full py-2 rounded hover:bg-blue-600 text-white font-semibold transition-all"
+          className="w-full py-2 rounded hover:text-blue-300 font-semibold transition-all"
           onClick={() => onNavigate('home')}
         >
           처음으로

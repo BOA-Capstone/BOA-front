@@ -40,7 +40,7 @@ const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
       <div className="flex-1 flex flex-col">
         {/* 헤더 */}
         <header className="h-16 bg-black shadow flex items-center px-8">
-          <div className="text-xl font-semibold">전기차 충전소 스케쥴링 시스템</div>
+          <div className="text-xl font-semibold bg-gradient-to-r from-[#38bdf8] to-[#7f00ff] bg-clip-text text-transparent">전기차 충전소 스케쥴링 시스템</div>
         </header>
         {/* 콘텐츠 */}
         <main className="flex-1 p-8">{content}</main>

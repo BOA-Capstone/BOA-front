@@ -9,7 +9,7 @@ interface IntroSectionProps {
 const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
   const { ref, inView } = useInView(0.3);
   return (
-    <section ref={ref} className={`relative flex flex-col min-h-screen w-screen items-center justify-center bg-gradient-to-br from-[#0f172a] via-blue-900 to-[#1e293b] ${inView ? 'animate-fade-in' : ''} ${className || ''}`}>
+    <section ref={ref} className={`relative flex flex-col min-h-screen w-screen items-center justify-center bg-gradient-to-br from-[#090f68] via-blue-900 to-[#101d32] ${inView ? 'animate-fade-in' : ''} ${className || ''}`}>
       <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -52,18 +52,23 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
 
           {/* 상단 중앙 세로 */}
           <path d="M320 80 V200" stroke="#38bdf8" strokeWidth="2.5" />
+          <circle cx="320" cy="80" r="8" fill="#38bdf8" />
           <circle cx="320" cy="200" r="8" fill="#38bdf8" />
           <path d="M1120 80 V200" stroke="#38bdf8" strokeWidth="2.5" />
           <circle cx="1120" cy="80" r="8" fill="#38bdf8" />
+          <circle cx="1120" cy="200" r="8" fill="#38bdf8" />
           <path d="M720 80 V200" stroke="#38bdf8" strokeWidth="2.5" />
           <circle cx="720" cy="80" r="8" fill="#38bdf8" />
+          <circle cx="720" cy="200" r="8" fill="#38bdf8" />
 
           {/* 좌측 중앙 세로 */}
           <path d="M80 320 V480" stroke="#38bdf8" strokeWidth="2" />
           <circle cx="80" cy="320" r="7" fill="#38bdf8" />
+          <circle cx="80" cy="480" r="7" fill="#38bdf8" />
           {/* 우측 중앙 세로 */}
           <path d="M1360 320 V480" stroke="#22d3ee" strokeWidth="2" />
           <circle cx="1360" cy="320" r="7" fill="#22d3ee" />
+          <circle cx="1360" cy="480" r="7" fill="#22d3ee" />
         </g>
       </svg>
       <div className="z-10 mb-8 animate-slide-down">
