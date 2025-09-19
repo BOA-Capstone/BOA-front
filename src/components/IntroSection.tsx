@@ -1,4 +1,5 @@
 import React from 'react';
+import { useInView } from '../hooks/useInView';
 
 interface IntroSectionProps {
   onStart?: () => void;
@@ -6,8 +7,9 @@ interface IntroSectionProps {
 }
 
 const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
+  const { ref, inView } = useInView(0.3);
   return (
-    <section className={`relative flex flex-col min-h-screen w-screen items-center justify-center bg-gradient-to-br from-[#0f172a] via-blue-900 to-[#1e293b] animate-fade-in ${className || ''}`}>
+    <section ref={ref} className={`relative flex flex-col min-h-screen w-screen items-center justify-center bg-gradient-to-br from-[#0f172a] via-blue-900 to-[#1e293b] ${inView ? 'animate-fade-in' : ''} ${className || ''}`}>
       <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -67,12 +69,12 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
       <div className="z-10 mb-8 animate-slide-down">
         {/* <img src="/src/assets/logo.png" alt="BOA Logo" className="w-24 h-24 mx-auto" /> */}
       </div>
-      <h1 className="z-10 text-4xl md:text-5xl font-extrabold text-white mb-6 animate-slide-up drop-shadow-[0_0_16px_#38bdf8]">
+      <h1 className={`z-10 text-4xl md:text-5xl font-extrabold text-white mb-6 drop-shadow-[0_0_16px_#38bdf8] ${inView ? 'animate-slide-up' : ''}`}>
         BOA EV 충전 스케줄링 시스템
       </h1>
       <button
         onClick={onStart}
-        className="z-10 mt-10 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xl font-bold rounded-full shadow-lg border-2 border-blue-300 hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 animate-fade-in drop-shadow-[0_0_8px_#38bdf8]"
+        className={`z-10 mt-10 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xl font-bold rounded-full shadow-lg border-2 border-blue-300 hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 drop-shadow-[0_0_8px_#38bdf8] ${inView ? 'animate-fade-in' : ''}`}
       >
         <span className="inline-flex items-center gap-2">
           시작하기
