@@ -7,7 +7,7 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-  <div className="flex min-h-screen w-screen bg-gray-50">
+  <div className="flex h-screen w-screen bg-gray-50">
       {/* 사이드바 */}
       <aside className="w-64 bg-blue-900 text-white flex flex-col p-4">
         <div className="text-2xl font-bold mb-8">BOA Dashboard</div>
