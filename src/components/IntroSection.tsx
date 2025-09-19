@@ -50,34 +50,18 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
 
           {/* 상단 중앙 세로 */}
           <path d="M320 80 V200" stroke="#38bdf8" strokeWidth="2.5" />
-          <circle cx="320" cy="80" r="8" fill="#38bdf8" />
           <circle cx="320" cy="200" r="8" fill="#38bdf8" />
           <path d="M1120 80 V200" stroke="#38bdf8" strokeWidth="2.5" />
           <circle cx="1120" cy="80" r="8" fill="#38bdf8" />
-          <circle cx="1120" cy="200" r="8" fill="#38bdf8" />
           <path d="M720 80 V200" stroke="#38bdf8" strokeWidth="2.5" />
           <circle cx="720" cy="80" r="8" fill="#38bdf8" />
-          <circle cx="720" cy="200" r="8" fill="#38bdf8" />
-
-          {/* 하단 중앙 세로 */}
-          <path d="M320 720 V600" stroke="#22d3ee" strokeWidth="2.5" />
-          <circle cx="320" cy="720" r="8" fill="#22d3ee" />
-          <circle cx="320" cy="600" r="8" fill="#22d3ee" />
-          <path d="M1120 720 V600" stroke="#22d3ee" strokeWidth="2.5" />
-          <circle cx="1120" cy="720" r="8" fill="#22d3ee" />
-          <circle cx="1120" cy="600" r="8" fill="#22d3ee" />
-          <path d="M720 720 V600" stroke="#22d3ee" strokeWidth="2.5" />
-          <circle cx="720" cy="720" r="8" fill="#22d3ee" />
-          <circle cx="720" cy="600" r="8" fill="#22d3ee" />
 
           {/* 좌측 중앙 세로 */}
           <path d="M80 320 V480" stroke="#38bdf8" strokeWidth="2" />
           <circle cx="80" cy="320" r="7" fill="#38bdf8" />
-          <circle cx="80" cy="480" r="7" fill="#38bdf8" />
           {/* 우측 중앙 세로 */}
           <path d="M1360 320 V480" stroke="#22d3ee" strokeWidth="2" />
           <circle cx="1360" cy="320" r="7" fill="#22d3ee" />
-          <circle cx="1360" cy="480" r="7" fill="#22d3ee" />
         </g>
       </svg>
       <div className="z-10 mb-8 animate-slide-down">
@@ -88,12 +72,17 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
       </h1>
       <button
         onClick={onStart}
-        className="z-10 px-10 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xl font-bold rounded-full shadow-lg border-2 border-blue-300 hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 animate-fade-in drop-shadow-[0_0_8px_#38bdf8]"
+        className="z-10 mt-10 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xl font-bold rounded-full shadow-lg border-2 border-blue-300 hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 animate-fade-in drop-shadow-[0_0_8px_#38bdf8]"
       >
         <span className="inline-flex items-center gap-2">
           시작하기
         </span>
       </button>
+      {/* 아래로 스크롤 안내 플로팅 아이콘 */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
+        <span className="animate-bounce text-3xl text-cyan-300 drop-shadow-lg">↓</span>
+        <span className="mt-1 text-sm text-cyan-200 animate-fade-in">플랫폼 소개</span>
+      </div>
     </section>
   );
 };
