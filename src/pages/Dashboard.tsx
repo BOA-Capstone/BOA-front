@@ -30,16 +30,17 @@ const Dashboard: React.FC = () => {
     range: [yMax, 0],
   });
   return (
-    <div className="w-full h-full bg-gradient-to-br from-[#1a0033] via-[#0a1f44] to-[#38bdf8] flex flex-col items-center py-10">
-      <h2 className="text-2xl font-bold mb-10 text-white">충전소별 사용량 대시보드 (예시)</h2>
-      <div className="bg-black rounded-lg shadow p-6 flex flex-col items-center">
-        <svg width={width} height={height}>
-          <Group top={margin.top} left={margin.left}>
+    <div className="w-full h-full bg-gradient-to-br from-[#1a0033] via-[#0a1f44] to-[#38bdf8] flex flex-col items-center">
+      <h2 className="text-2xl font-bold my-5 text-white">충전소별 사용량 대시보드 (예시)</h2>
+      <div className="bg-black rounded-2xl shadow-lg flex flex-col items-center w-full max-w-5xl mx-auto">
+        <svg width={800} height={400}>
+          <Group top={40} left={60}>
             {data.map((d, i) => {
-              const barWidth = xScale.bandwidth();
-              const barHeight = yMax - yScale(d.value);
-              const x = xScale(d.name);
-              const y = yScale(d.value);
+              // 새로운 스케일 계산 (확장된 width/height 기준)
+              const barWidth = 80;
+              const barHeight = d.value * 5;
+              const x = i * 120;
+              const y = 300 - barHeight;
               return (
                 <Bar
                   key={`bar-${d.name}`}
@@ -48,33 +49,34 @@ const Dashboard: React.FC = () => {
                   width={barWidth}
                   height={barHeight}
                   fill="#38bdf8"
-                  rx={6}
+                  rx={12}
                 />
               );
             })}
             {/* X축 라벨 */}
             {data.map((d, i) => {
-              const x = xScale(d.name) ?? 0;
+              const x = i * 120 + 40;
               return (
                 <text
                   key={`label-${d.name}`}
-                  x={x + xScale.bandwidth() / 2}
-                  y={yMax + 20}
+                  x={x}
+                  y={340}
                   textAnchor="middle"
                   fill="#fff"
-                  fontSize={14}
+                  fontSize={18}
+                  fontWeight="bold"
                 >
                   {d.name}
                 </text>
               );
             })}
             {/* Y축 라벨 */}
-            <text x={-30} y={yMax / 2} fill="#fff" fontSize={14} textAnchor="middle" transform={`rotate(-90, -30, ${yMax / 2})`}>
+            <text x={-40} y={180} fill="#fff" fontSize={18} textAnchor="middle" transform="rotate(-90, -40, 180)">
               사용량
             </text>
           </Group>
         </svg>
-        <div className="mt-6 text-gray-300 text-sm">
+        <div className="my-8 text-gray-300 text-base">
           ※ 실제 데이터가 아닌 임시 예시입니다.
         </div>
       </div>

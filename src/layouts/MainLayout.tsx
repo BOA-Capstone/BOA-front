@@ -30,7 +30,7 @@ const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-gray-50">
+    <div className="flex h-screen w-screen">
       {/* 사이드바 */}
       <Sidebar current={page} onNavigate={(page) => {
         if (page === 'home' && onGoHome) onGoHome();
@@ -43,7 +43,7 @@ const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
           <div className="text-xl font-semibold bg-gradient-to-r from-[#38bdf8] to-[#7f00ff] bg-clip-text text-transparent">전기차 충전소 스케쥴링 시스템</div>
         </header>
         {/* 콘텐츠 */}
-        <main className="flex-1 p-8">{content}</main>
+        <main className="flex-1">{content}</main>
       </div>
     </div>
   );
