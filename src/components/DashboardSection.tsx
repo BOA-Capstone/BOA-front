@@ -7,6 +7,7 @@ interface DashboardSectionProps {
 
 const DashboardSection: React.FC<DashboardSectionProps> = ({ className }) => {
   const { ref, inView } = useInView(0.3);
+
   return (
     <section ref={ref} className={`relative w-full min-h-screen flex items-center justify-center bg-[url('/src/assets/photo5.jpg')] bg-cover bg-center text-black ${className || ''}`}> 
       <div className="relative w-full max-w-xl mr-auto flex flex-col items-center text-center md:items-start md:text-left md:pl-20">

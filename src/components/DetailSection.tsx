@@ -18,6 +18,10 @@ const DetailSection: React.FC<DetailSectionProps> = ({ className }) => {
         </p>
         {/* 추후 상세 정보 컴포넌트 삽입 가능 */}
       </div>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
+        <span className="animate-bounce text-3xl text-white drop-shadow-lg">↓</span>
+        <span className="mt-1 text-sm text-white animate-fade-in">플랫폼 소개</span>
+      </div>
     </section>
   );
 };
