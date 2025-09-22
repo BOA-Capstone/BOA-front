@@ -14,18 +14,23 @@ const Sidebar: React.FC<SidebarProps> = ({ current, onNavigate }) => {
       <nav className="flex flex-col gap-4">
         <button
           className={`text-left hover:text-blue-300 ${current === 'summary' ? 'font-bold text-blue-300' : ''}`}
+          onClick={() => onNavigate('summary')}
         >전체 현황 요약</button>
         <button
           className={`text-left hover:text-blue-300 ${current === 'visualization' ? 'font-bold text-blue-300' : ''}`}
+          onClick={() => onNavigate('visualization')}
         >충전소 현황</button>
         <button
           className={`text-left hover:text-blue-300 ${current === 'detail' ? 'font-bold text-blue-300' : ''}`}
+          onClick={() => onNavigate('detail')}
         >충전소 상세 정보</button>
         <button
           className={`text-left hover:text-blue-300 ${current === 'stats' ? 'font-bold text-blue-300' : ''}`}
+          onClick={() => onNavigate('stats')}
         >통계 및 분석</button>
         <button
           className={`text-left hover:text-blue-300 ${current === 'settings' ? 'font-bold text-blue-300' : ''}`}
+          onClick={() => onNavigate('settings')}
         >설정</button>
       </nav>
       <div className="mt-auto pt-8">

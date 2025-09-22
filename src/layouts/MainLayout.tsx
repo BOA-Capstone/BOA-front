@@ -1,8 +1,8 @@
 import Sidebar, { type DashboardPage } from '../components/Sidebar';
 import Summary from '../components/Summary';
-import VisualizationSection from '../components/VisualizationSection';
-import DetailSection from '../components/DetailSection';
-import DashboardSection from '../components/DashboardSection';
+import StationVisualization from '../components/StationVisualization';
+import StationDetail from '../components/StationDetail';
+import Statistics from '../components/Statistics';
 import React, { useState } from 'react';
 
 const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
@@ -14,13 +14,13 @@ const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
       content = <Summary />;
       break;
     case 'visualization':
-      content = <VisualizationSection />;
+      content = <StationVisualization />;
       break;
     case 'detail':
-      content = <DetailSection />;
+      content = <StationDetail />;
       break;
     case 'stats':
-      content = <DashboardSection />;
+      content = <Statistics />;
       break;
     case 'settings':
       content = <div className="p-8">설정 페이지 준비중...</div>;
