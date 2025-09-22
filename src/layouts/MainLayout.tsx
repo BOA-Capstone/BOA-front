@@ -6,8 +6,13 @@ import Statistics from '../components/main/Statistics';
 import React, { useState } from 'react';
 import SettingsModal from '../components/main/SettingsModal';
 
-const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
-  const [page, setPage] = useState<DashboardPage>('summary');
+interface MainLayoutProps {
+  onGoHome?: () => void;
+  initialPage?: DashboardPage;
+}
+
+const MainLayout: React.FC<MainLayoutProps> = ({ onGoHome, initialPage = 'summary' }) => {
+  const [page, setPage] = useState<DashboardPage>(initialPage);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   let content;

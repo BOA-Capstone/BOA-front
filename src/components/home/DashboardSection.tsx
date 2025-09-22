@@ -3,9 +3,10 @@ import { useInView } from '../../hooks/useInView';
 
 interface DashboardSectionProps {
   className?: string;
+  onGoToMain?: () => void;
 }
 
-const DashboardSection: React.FC<DashboardSectionProps> = ({ className }) => {
+const DashboardSection: React.FC<DashboardSectionProps> = ({ className, onGoToMain }) => {
   const { ref, inView } = useInView(0.3);
 
   return (
@@ -17,6 +18,12 @@ const DashboardSection: React.FC<DashboardSectionProps> = ({ className }) => {
           주요 지표와 트렌드를 한눈에 확인할 수 있습니다.
         </p>
         {/* 추후 대시보드/통계 컴포넌트 삽입 가능 */}
+        <button
+          className={`mt-4 px-8 py-3 bg-white/20 border border-blue-300 text-black/70 font-bold rounded-full shadow-lg backdrop-blur hover:bg-blue-100 hover:text-black transition-all duration-200 w-fit ${inView ? 'animate-slide-up' : ''}`}
+          onClick={onGoToMain}
+        >
+          이동하기
+        </button>
       </div>
     </section>
   );
