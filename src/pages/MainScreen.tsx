@@ -1,8 +1,8 @@
 import React from 'react';
-import DashboardChart from '../components/DashboardChart';
+import MainLayout from '../layouts/MainLayout';
 
 const MainScreen: React.FC = () => {
-  return <DashboardChart />;
+  return <MainLayout />;
 };
 
 export default MainScreen;

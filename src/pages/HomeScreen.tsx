@@ -4,7 +4,7 @@ import AboutSection from '../components/home/AboutSection';
 import VisualizationSection from '../components/home/VisualizationSection';
 import DetailSection from '../components/home/DetailSection';
 import DashboardSection from '../components/home/DashboardSection';
-import MainLayout from '../layouts/MainLayout';
+import MainScreen from './MainScreen';
 import HomeLayout from '../layouts/HomeLayout';
 
 const HomeScreen: React.FC<{ onStart?: () => void }> = ({ onStart }) => {
@@ -16,7 +16,7 @@ const HomeScreen: React.FC<{ onStart?: () => void }> = ({ onStart }) => {
   };
 
   return started ? (
-    <MainLayout />
+    <MainScreen />
   ) : (
     <HomeLayout>
       <div className="snap-y snap-mandatory h-screen overflow-y-auto">

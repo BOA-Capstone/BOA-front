@@ -1,8 +1,8 @@
-import Sidebar, { type DashboardPage } from '../components/Sidebar';
-import Summary from '../components/Summary';
-import StationVisualization from '../components/StationVisualization';
-import StationDetail from '../components/StationDetail';
-import Statistics from '../components/Statistics';
+import Sidebar, { type DashboardPage } from '../components/main/Sidebar';
+import Summary from '../components/main/Summary';
+import StationVisualization from '../components/main/StationVisualization';
+import StationDetail from '../components/main/StationDetail';
+import Statistics from '../components/main/Statistics';
 import React, { useState } from 'react';
 
 const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
