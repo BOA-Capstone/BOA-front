@@ -5,6 +5,7 @@ import VisualizationSection from '../components/VisualizationSection';
 import DetailSection from '../components/DetailSection';
 import DashboardSection from '../components/DashboardSection';
 import MainLayout from '../layouts/MainLayout';
+import HomeLayout from '../layouts/HomeLayout';
 
 const HomeScreen: React.FC<{ onStart?: () => void }> = ({ onStart }) => {
   const [started, setStarted] = useState(false);
@@ -17,13 +18,15 @@ const HomeScreen: React.FC<{ onStart?: () => void }> = ({ onStart }) => {
   return started ? (
     <MainLayout />
   ) : (
-    <div className="snap-y snap-mandatory h-screen overflow-y-auto">
-      <IntroSection onStart={handleStart} className="snap-start" />
-      <AboutSection className="snap-start" />
-      <VisualizationSection className="snap-start" />
-      <DetailSection className="snap-start" />
-      <DashboardSection className="snap-start" />
-    </div>
+    <HomeLayout>
+      <div className="snap-y snap-mandatory h-screen overflow-y-auto">
+        <IntroSection onStart={handleStart} className="snap-start" />
+        <AboutSection className="snap-start" />
+        <VisualizationSection className="snap-start" />
+        <DetailSection className="snap-start" />
+        <DashboardSection className="snap-start" />
+      </div>
+    </HomeLayout>
   );
 };
 
