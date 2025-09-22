@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type DashboardPage = 'dashboard' | 'visualization' | 'detail' | 'stats' | 'settings' | 'home';
+export type DashboardPage = 'summary' | 'visualization' | 'detail' | 'stats' | 'settings' | 'home';
 
 export interface SidebarProps {
   current: DashboardPage;
@@ -13,8 +13,8 @@ const Sidebar: React.FC<SidebarProps> = ({ current, onNavigate }) => {
       <div className="text-2xl font-bold mb-8">BOA Dashboard</div>
       <nav className="flex flex-col gap-4">
         <button
-          className={`text-left hover:text-blue-300 ${current === 'dashboard' ? 'font-bold text-blue-300' : ''}`}
-        >대시보드</button>
+          className={`text-left hover:text-blue-300 ${current === 'summary' ? 'font-bold text-blue-300' : ''}`}
+        >전체 현황 요약</button>
         <button
           className={`text-left hover:text-blue-300 ${current === 'visualization' ? 'font-bold text-blue-300' : ''}`}
         >충전소 현황</button>

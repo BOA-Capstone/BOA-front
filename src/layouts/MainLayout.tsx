@@ -1,17 +1,17 @@
 import Sidebar, { type DashboardPage } from '../components/Sidebar';
-import Dashboard from '../pages/Dashboard';
+import Summary from '../components/Summary';
 import VisualizationSection from '../components/VisualizationSection';
 import DetailSection from '../components/DetailSection';
 import DashboardSection from '../components/DashboardSection';
 import React, { useState } from 'react';
 
 const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
-  const [page, setPage] = useState<DashboardPage>('dashboard');
+  const [page, setPage] = useState<DashboardPage>('summary');
 
   let content;
   switch (page) {
-    case 'dashboard':
-      content = <Dashboard />;
+    case 'summary':
+      content = <Summary />;
       break;
     case 'visualization':
       content = <VisualizationSection />;
@@ -26,7 +26,7 @@ const MainLayout: React.FC<{ onGoHome?: () => void }> = ({ onGoHome }) => {
       content = <div className="p-8">설정 페이지 준비중...</div>;
       break;
     default:
-      content = <Dashboard />;
+      content = <Summary />;
   }
 
   return (
