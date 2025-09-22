@@ -10,7 +10,7 @@ const summaryData = [
 
 const Summary: React.FC = () => {
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white/10 rounded-2xl shadow-lg p-8 flex flex-col gap-6 items-center">
+    <div className="w-full max-w-3xl mx-auto bg-white/10 rounded-2xl shadow-lg  flex flex-col gap-6 items-center">
       <h2 className="text-2xl font-bold text-blue-200 mb-4">전체 현황 요약</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {summaryData.map((item, idx) => (

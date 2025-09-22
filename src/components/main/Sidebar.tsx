@@ -9,7 +9,7 @@ export interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ current, onNavigate }) => {
   return (
-    <aside className="w-64 bg-blue-900 text-white flex flex-col p-4">
+    <aside className="w-64 bg-gradient-to-r from-[#261cb3] to-[#8000ffc2] text-white flex flex-col p-4">
       <div className="text-2xl font-bold mb-8">BOA Dashboard</div>
       <nav className="flex flex-col gap-4">
         <button
