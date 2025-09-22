@@ -8,7 +8,7 @@ interface VisualizationSectionProps {
 const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className }) => {
   const { ref, inView } = useInView(0.3);
   return (
-    <section ref={ref} className={`w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#181c2b] via-[#6c2eb6] to-[#2ee9d9] ${className || ''}`}>
+    <section ref={ref} className={`w-full min-h-screen flex flex-col items-center justify-center bg-[url('/src/assets/photo4.jpg')] bg-cover bg-center ${className || ''}`}>
       <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${inView ? 'animate-slide-up' : ''}`}>충전소 현황 시각화</h2>
       <p className={`max-w-2xl text-lg md:text-xl mb-8 text-center ${inView ? 'animate-fade-in' : ''}`}>
         지도 기반으로 실시간 위치, 사용 가능/고장/점검 상태 등 충전소 현황을 한눈에 시각화합니다.<br />
