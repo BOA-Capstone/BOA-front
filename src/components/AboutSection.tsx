@@ -14,7 +14,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ className }) => {
       className={`relative min-h-screen flex items-center justify-center bg-[url('/src/assets/photo3.jpg')] bg-cover bg-center text-white px-4 ${className || ''}`}
     >
       <div className="absolute inset-0 bg-black/30" />
-  <div className="relative w-full max-w-2xl ml-auto md:pr-24 md:pl-10 flex flex-col items-center md:items-end  -translate-y-5">
+      <div className="relative w-full max-w-2xl ml-auto md:pr-24 flex flex-col items-center -translate-y-5">
         <h2 className={`text-3xl md:text-4xl font-bold mb-5 ${inView ? 'animate-fade-in' : ''}`}>BOA EV 충전 스케줄링 시스템이란?</h2>
         <p className={`text-xl mb-8 ${inView ? 'animate-fade-in' : ''}`}>
           전기차 충전소의 실시간 현황, 위치, 사용 가능 여부, 주요 통계 정보를 확인할 수 있는 플랫폼입니다.<br />
