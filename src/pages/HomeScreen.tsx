@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import IntroSection from '../components/IntroSection';
-import AboutSection from '../components/AboutSection';
-import VisualizationSection from '../components/VisualizationSection';
-import DetailSection from '../components/DetailSection';
-import DashboardSection from '../components/DashboardSection';
+import IntroSection from '../components/home/IntroSection';
+import AboutSection from '../components/home/AboutSection';
+import VisualizationSection from '../components/home/VisualizationSection';
+import DetailSection from '../components/home/DetailSection';
+import DashboardSection from '../components/home/DashboardSection';
 import MainLayout from '../layouts/MainLayout';
 import HomeLayout from '../layouts/HomeLayout';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useInView } from '../hooks/useInView';
+import { useInView } from '../../hooks/useInView';
 
 interface IntroSectionProps {
   onStart?: () => void;

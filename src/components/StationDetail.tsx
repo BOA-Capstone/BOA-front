@@ -2,7 +2,7 @@ import React from 'react';
 
 const StationDetail: React.FC = () => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-xl mx-auto">
+    <div className="bg-black rounded-lg shadow-md p-6 w-full max-w-xl mx-auto">
       <h2 className="text-xl font-bold mb-4 text-blue-700">충전소 상세 정보 (더미)</h2>
       <ul className="space-y-2">
         <li>충전소명: <span className="font-semibold">BOA 강남점</span></li>

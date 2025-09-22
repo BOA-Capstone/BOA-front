@@ -2,7 +2,7 @@ import React from 'react';
 
 const StationVisualization: React.FC = () => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-xl mx-auto">
+    <div className="bg-black rounded-lg shadow-md p-6 w-full max-w-xl mx-auto">
       <h2 className="text-xl font-bold mb-4 text-blue-700">충전소 현황 요약</h2>
       <ul className="space-y-2">
         <li>총 충전소 수: <span className="font-semibold">120개</span></li>
