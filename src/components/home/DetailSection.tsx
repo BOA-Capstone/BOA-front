@@ -9,12 +9,15 @@ interface DetailSectionProps {
 const DetailSection: React.FC<DetailSectionProps> = ({ className, onGoToMain }) => {
   const { ref, inView } = useInView(0.3);
   return (
-    <section ref={ref} className={`relative flex items-center justify-center min-h-screen w-screen bg-[url('/src/assets/photo4.jpg')] bg-cover bg-center ${className || ''}`}>
+    <section
+      ref={ref}
+      className={`relative min-h-screen flex items-center justify-center bg-[url('/src/assets/photo3.jpg')] bg-cover bg-center text-white px-4 ${className || ''}`}
+    >
       <div className="absolute inset-0 bg-black/30" />
-      <div className="relative w-full max-w-2xl mx-auto flex flex-col items-center text-center translate-y-8">
-        <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${inView ? 'animate-slide-up' : ''}`}>충전소 상세 정보</h2>
-        <p className={`text-lg md:text-xl mb-8 ${inView ? 'animate-slide-up' : ''}`}> 
-          개별 충전소의 상세 정보(주소, 운영시간, 충전기 종류, 상태, 혼잡도 등)를 제공합니다.<br />
+      <div className="relative w-full max-w-2xl ml-auto md:pr-24 flex flex-col items-end text-right -translate-y-5">
+        <h2 className={`text-3xl md:text-4xl font-bold mb-5 ${inView ? 'animate-slide-up' : ''}`}>충전소 상세 정보</h2>
+        <p className={`text-lg md:text-xl mb-8 ${inView ? 'animate-slide-up' : ''}`}>
+          개별 충전소의 상세 정보(주소, 운영시간, 상태, 혼잡도 등)를 제공합니다.<br />
           상세 페이지 또는 팝업/모달로 확인할 수 있습니다.
         </p>
         <button
