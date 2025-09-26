@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { useInView } from '../../hooks/useInView';
+import title3 from '../../assets/title3.png';
 
 interface IntroSectionProps {
   onStart?: () => void;
@@ -9,27 +11,36 @@ interface IntroSectionProps {
 const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
   const { ref, inView } = useInView(0.3);
   return (
-    <section ref={ref} className={`relative flex flex-col min-h-screen w-screen items-center justify-center bg-[url('/src/assets/title1.jpg')] bg-cover bg-center ${inView ? 'animate-fade-in' : ''} ${className || ''}`}>
-      
-      <div className="z-10 mb-8 animate-slide-down">
-        {/* <img src="/src/assets/logo.png" alt="BOA Logo" className="w-24 h-24 mx-auto" /> */}
-      </div>
-      <h1 className={`z-10 text-4xl md:text-5xl font-extrabold text-white mb-6 drop-shadow-[0_0_16px_#38bdf8] ${inView ? 'animate-fade-in' : ''}`}>
-        EV 충전 스케줄링 시스템
-      </h1>
-      <button
-        onClick={onStart}
-        className={`z-10 mt-10 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xl font-bold rounded-full shadow-lg border-2 border-blue-300 hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 drop-shadow-[0_0_8px_#38bdf8] ${inView ? 'animate-fade-in' : ''}`}
-      >
-        <span className="inline-flex items-center gap-2 animation-fade-in">
+    <section
+      ref={ref}
+      className={`relative flex flex-row min-h-screen w-screen bg-[#0a1033] ${className || ''}`}
+      style={{
+        backgroundImage: `url(${title3})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* 왼쪽 텍스트 영역 */}
+      <div className="flex flex-col justify-center pl-16 w-full max-w-xl z-10">
+        <h1 className={`text-5xl md:text-6xl font-extrabold mb-4 text-left leading-tight ${inView ? 'animate-fade-in' : ''}`}> 
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">opti</span>
+          <span className="text-white">EV</span>
+          <br />
+        </h1>
+        <p className="text-lg text-slate-200 mb-8 mt-2">
+          전기차 충전소의 실시간 현황, 위치, 사용 가능 여부, 주요 통계 정보를 확인할 수 있는 플랫폼입니다.<br />
+          누구나 쉽고 빠르게 주변 충전소를 찾고, 효율적으로 충전 계획을 세울 수 있도록 돕습니다.
+        </p>
+        <button
+          onClick={onStart}
+          className="mt-4 px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300"
+        >
           시작하기
-        </span>
-      </button>
-      {/* 아래로 스크롤 안내 플로팅 아이콘 */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
-        <span className="animate-bounce text-3xl text-cyan-300 drop-shadow-lg">↓</span>
-        <span className="mt-1 text-sm text-cyan-200 animate-fade-in">플랫폼 소개</span>
+        </button>
       </div>
+      {/* 오른쪽 영역: 배경 이미지가 전체에 적용되므로 별도 이미지 필요 없음 */}
+      <div className="flex-1" />
     </section>
   );
 };
