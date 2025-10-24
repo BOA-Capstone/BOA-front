@@ -52,12 +52,20 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
           누구나 쉽고 빠르게 주변 충전소를 찾고, 효율적으로 충전 계획을 세울 수 있도록 돕습니다.<br />
           플랫폼의 소개를 확인하려면 아래로 슬라이드해주십시오.
         </p>
-        <button
-          onClick={onStart}
-          className={`mt-4 max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
-        >
-          시작하기
-        </button>
+        <div className="flex flex-row gap-4 mt-4">
+          <button
+            onClick={onStart}
+            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+          >
+            시작하기
+          </button>
+          <button
+            onClick={onStart}
+            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+          >
+            시작하기
+          </button>
+        </div>
       </div>
       {/* 오른쪽 영역: 배경 이미지가 전체에 적용되므로 별도 이미지 필요 없음 */}
       <div className="flex-1" />
