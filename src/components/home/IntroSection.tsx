@@ -57,13 +57,13 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
             onClick={onStart}
             className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
-            시작하기
+            관리자
           </button>
           <button
             onClick={onStart}
             className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
-            시작하기
+            사용자
           </button>
         </div>
       </div>
