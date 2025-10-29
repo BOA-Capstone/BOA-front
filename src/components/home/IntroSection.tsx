@@ -62,13 +62,12 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onAdminClick, onUserClick, 
           </button>
           <button
             onClick={onUserClick}
-            className={`w-[280px] py-4 bg-primary text-primary-foreground text-lg font-bold rounded-md shadow-lg border border-accent hover:border-[#a855f7] hover:text-[#a855f7] transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+            className={`w-[280px] py-4 bg-primary text-primary-foreground text-lg font-bold rounded-md shadow-lg border border-accent hover:border-[var(--cyan)] hover:text-[var(--cyan)] transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
             사용자
           </button>
         </div>
       </div>
-      {/* 오른쪽 영역: 배경 이미지가 전체에 적용되므로 별도 이미지 필요 없음 */}
       <div className="flex-1" />
     </section>
   );
