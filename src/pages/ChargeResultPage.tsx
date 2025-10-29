@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../components/ui/button";
+import { InfoModal } from "../components/ui/info-modal";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const ChargeResultPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showInfo, setShowInfo] = useState(false);
   const { currentSoc, targetSoc, arrivalTime, departureTime, mode } = location.state || {};
 
   // 더미 데이터: 실제 API 연동 전까지 사용
@@ -87,7 +89,23 @@ const ChargeResultPage: React.FC = () => {
           </div>
         )}
       </div>
+      <Button
+        className="w-full mb-3"
+        variant="outline"
+        onClick={() => setShowInfo(true)}
+      >
+        절감 원리 보기
+      </Button>
       <Button className="w-full" onClick={() => navigate("/")}>메인으로 돌아가기</Button>
+      <InfoModal open={showInfo} onClose={() => setShowInfo(false)}>
+        <h2 className="text-xl font-bold mb-4 text-center">절감 원리 안내</h2>
+        <ul className="list-disc pl-5 text-sm text-slate-600 mb-2">
+          <li>전력 요금이 낮은 시간대에 집중 충전</li>
+          <li>ESS(배터리) 활용 및 태양광 등 신재생 에너지 연계</li>
+          <li>사용자 목표 SoC와 출차 시간에 맞춘 맞춤형 스케줄</li>
+        </ul>
+        <div className="text-xs text-slate-400">(실제 절감 효과는 환경 및 요금제에 따라 달라질 수 있습니다)</div>
+      </InfoModal>
     </div>
   </div>
 );
