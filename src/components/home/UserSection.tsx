@@ -9,9 +9,9 @@ interface VisualizationSectionProps {
 const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className, onGoToMain }) => {
   const { ref, inView } = useInView(0.3);
   return (
-    <section ref={ref} className={`relative w-full min-h-screen flex items-center justify-center bg-[url('/src/assets/photo6.jpg')] bg-cover bg-center ${className || ''}`}> 
+    <section ref={ref} className={`relative w-full min-h-screen flex items-center justify-center text-white bg-[url('/src/assets/photo6.jpg')] bg-cover bg-center ${className || ''}`}> 
       <div className="relative w-full max-w-xl mr-auto md:pl-20 flex flex-col text-left">
-        <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${inView ? 'animate-slide-up' : ''}`}>충전소 현황 시각화</h2>
+        <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${inView ? 'animate-slide-up' : ''}`}>사용자 모드</h2>
         <p className={`text-lg md:text-xl mb-8 ${inView ? 'animate-slide-up' : ''}`}> 
           지도 기반으로 실시간 위치, 사용 가능/고장/점검 상태 등 충전소 현황을 한눈에 시각화합니다.<br />
           주변 충전소 검색, 필터링 기능도 제공합니다.

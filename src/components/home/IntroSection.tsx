@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useInView } from '../../hooks/useInView';
 import title3 from '../../assets/title3.png';
 
+
 interface IntroSectionProps {
-  onStart?: () => void;
+  onAdminClick?: () => void;
+  onUserClick?: () => void;
   className?: string;
 }
 
-const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
+const IntroSection: React.FC<IntroSectionProps> = ({ onAdminClick, onUserClick, className }) => {
   const { ref, inView } = useInView(0.3);
   const [optiColored, setOptiColored] = useState(false);
 
@@ -54,14 +56,14 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onStart, className }) => {
         </p>
         <div className="flex flex-row gap-4 mt-4">
           <button
-            onClick={onStart}
-            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+            onClick={onAdminClick}
+            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
             관리자
           </button>
           <button
-            onClick={onStart}
-            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+            onClick={onUserClick}
+            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
             사용자
           </button>
