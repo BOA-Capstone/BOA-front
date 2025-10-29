@@ -1,13 +1,18 @@
 import React from 'react';
 import { useInView } from '../../hooks/useInView';
+import { useNavigate } from 'react-router-dom';
 
 interface DetailSectionProps {
   className?: string;
   onGoToMain?: () => void;
 }
 
-const DetailSection: React.FC<DetailSectionProps> = ({ className, onGoToMain }) => {
+const DetailSection: React.FC<DetailSectionProps> = ({ className }) => {
   const { ref, inView } = useInView(0.3);
+  const navigate = useNavigate();
+  const handleGoToAdmin = () => {
+    navigate('/admin');
+  };
   return (
     <section
       ref={ref}
@@ -22,7 +27,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({ className, onGoToMain }) 
         </p>
         <button
           className={`mt-4 px-8 py-3 bg-white/20 border border-blue-300 text-blue-100 font-bold rounded-full shadow-lg backdrop-blur hover:bg-blue-100 hover:text-black transition-all duration-200 w-fit ${inView ? 'animate-slide-up' : ''}`}
-          onClick={onGoToMain}
+          onClick={handleGoToAdmin}
         >
           이동하기
         </button>

@@ -25,10 +25,10 @@ const UserPage: React.FC = () => {
   } = useChargeForm();
 
   return (
-    <div className="min-h-screen w-screen px-0 bg-gradient-to-b from-slate-50 to-slate-200 flex flex-col items-center justify-center text-left">
+    <div className="min-h-screen w-screen px-0 bg-white flex flex-col items-center justify-center text-left">
       <div className="fixed top-0 left-0 w-full z-30">
-  <div className="w-full bg-gradient-to-r from-black via-black to-cyan-400 text-white text-center text-xl font-bold py-4 shadow-lg">
-          OptiEV 사용자 모드
+  <div className="w-full bg-black text-white text-center text-xl font-bold py-4 shadow-lg">
+          <span className="text-[var(--cyan)]">OptiEV</span> 사용자
         </div>
       </div>
   <div className="w-full max-w-2xl mx-auto bg-white/80 rounded-2xl shadow-xl px-16 py-16 flex flex-col items-center mt-16">

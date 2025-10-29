@@ -1,13 +1,18 @@
 import React from 'react';
 import { useInView } from '../../hooks/useInView';
+import { useNavigate } from 'react-router-dom';
 
 interface VisualizationSectionProps {
   className?: string;
   onGoToMain?: () => void;
 }
 
-const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className, onGoToMain }) => {
+const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className }) => {
   const { ref, inView } = useInView(0.3);
+  const navigate = useNavigate();
+  const handleGoToUser = () => {
+    navigate('/user');
+  };
   return (
     <section ref={ref} className={`relative w-full min-h-screen flex items-center justify-center text-white bg-[url('/src/assets/photo6.jpg')] bg-cover bg-center ${className || ''}`}> 
       <div className="relative w-full max-w-xl mr-auto md:pl-20 flex flex-col text-left">
@@ -18,7 +23,7 @@ const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className, 
         </p>
         <button
           className={`mt-4 px-8 py-3 bg-white/20 border border-blue-300 text-blue-100 font-bold rounded-full shadow-lg backdrop-blur hover:bg-blue-100 hover:text-black transition-all duration-200 w-fit ${inView ? 'animate-slide-up' : ''}`}
-          onClick={onGoToMain}
+          onClick={handleGoToUser}
         >
           이동하기
         </button>

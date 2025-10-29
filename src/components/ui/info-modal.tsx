@@ -23,7 +23,7 @@ export function InfoModal({ open, onClose, children }: InfoModalProps) {
           <div>{children}</div>
         </DialogDescription>
         <DialogClose asChild>
-          <button className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded">닫기</button>
+          <button className="mt-6 w-full bg-black-200 text-white font-semibold py-2 rounded">닫기</button>
         </DialogClose>
       </DialogContent>
     </Dialog>
