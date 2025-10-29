@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button } from "../components/ui/button";
 import { InfoModal } from "../components/ui/info-modal";
 import { useNavigate, useLocation } from "react-router-dom";
+import ChargeResultBar from "../components/charge/ChargeResultBar";
+import { BASE_COST, RAPID_COST, AI_COST, getSave, getSaveRate } from "../constants/charge";
 
 const ChargeResultPage: React.FC = () => {
   const navigate = useNavigate();
@@ -9,21 +11,15 @@ const ChargeResultPage: React.FC = () => {
   const [showInfo, setShowInfo] = useState(false);
   const { currentSoc, targetSoc, arrivalTime, departureTime, mode } = location.state || {};
 
-  // 더미 데이터: 실제 API 연동 전까지 사용
-  // 일반 충전(즉시), 급속 충전, AI 최적화 충전 비용 (단위: 원)
-  const baseCost = 5000; // 일반 충전(즉시)
-  const rapidCost = 4200; // 급속 충전
-  const aiCost = 3800; // AI 최적화
-
-  // 절감 계산
-  const rapidSave = baseCost - rapidCost;
-  const rapidSaveRate = Math.round((rapidSave / baseCost) * 100);
-  const aiSave = baseCost - aiCost;
-  const aiSaveRate = Math.round((aiSave / baseCost) * 100);
-
-  // 바 차트 길이 비율 (최대 100%)
+  // 비용/절감 계산 상수 및 유틸 사용
+  const baseCost = BASE_COST;
+  const rapidCost = RAPID_COST;
+  const aiCost = AI_COST;
+  const rapidSave = getSave(baseCost, rapidCost);
+  const rapidSaveRate = getSaveRate(baseCost, rapidCost);
+  const aiSave = getSave(baseCost, aiCost);
+  const aiSaveRate = getSaveRate(baseCost, aiCost);
   const maxCost = Math.max(baseCost, rapidCost, aiCost);
-  const getBarWidth = (cost: number) => `${Math.round((cost / maxCost) * 100)}%`;
 
           return (
   <div className="min-h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-50 to-slate-200">
@@ -44,20 +40,8 @@ const ChargeResultPage: React.FC = () => {
           <div className="w-full mb-6">
             <div className="font-bold text-slate-800 mb-2">일반 충전 vs 급속 충전</div>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <span className="w-24">일반 충전</span>
-                <div className="flex-1 bg-slate-200 rounded h-6 relative">
-                  <div className="bg-gray-400 h-6 rounded" style={{ width: getBarWidth(baseCost) }} />
-                  <span className="absolute left-2 top-0.5 text-xs text-white font-bold">{baseCost.toLocaleString()}원</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-24">급속 충전</span>
-                <div className="flex-1 bg-slate-200 rounded h-6 relative">
-                  <div className="bg-blue-400 h-6 rounded" style={{ width: getBarWidth(rapidCost) }} />
-                  <span className="absolute left-2 top-0.5 text-xs text-white font-bold">{rapidCost.toLocaleString()}원</span>
-                </div>
-              </div>
+              <ChargeResultBar label="일반 충전" cost={baseCost} maxCost={maxCost} colorClass="bg-gray-400" />
+              <ChargeResultBar label="급속 충전" cost={rapidCost} maxCost={maxCost} colorClass="bg-blue-400" />
             </div>
             <div className="mt-2 text-sm text-green-600 font-semibold text-right">
               절감액: {rapidSave.toLocaleString()}원 ({rapidSaveRate}%↓)
@@ -68,20 +52,8 @@ const ChargeResultPage: React.FC = () => {
           <div className="w-full mb-2">
             <div className="font-bold text-slate-800 mb-2">일반 충전 vs 최적화 충전</div>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <span className="w-24">일반 충전</span>
-                <div className="flex-1 bg-slate-200 rounded h-6 relative">
-                  <div className="bg-gray-400 h-6 rounded" style={{ width: getBarWidth(baseCost) }} />
-                  <span className="absolute left-2 top-0.5 text-xs text-white font-bold">{baseCost.toLocaleString()}원</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-24">최적화 충전</span>
-                <div className="flex-1 bg-slate-200 rounded h-6 relative">
-                  <div className="bg-green-500 h-6 rounded" style={{ width: getBarWidth(aiCost) }} />
-                  <span className="absolute left-2 top-0.5 text-xs text-white font-bold">{aiCost.toLocaleString()}원</span>
-                </div>
-              </div>
+              <ChargeResultBar label="일반 충전" cost={baseCost} maxCost={maxCost} colorClass="bg-gray-400" />
+              <ChargeResultBar label="최적화 충전" cost={aiCost} maxCost={maxCost} colorClass="bg-green-500" />
             </div>
             <div className="mt-2 text-sm text-green-600 font-semibold text-right">
               절감액: {aiSave.toLocaleString()}원 ({aiSaveRate}%↓)

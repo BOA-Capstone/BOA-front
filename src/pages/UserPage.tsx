@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
-import { Modal } from '../components/ui/modal';
-import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { validateChargeForm } from '../utils/validation';
+import ChargeForm from '../components/charge/ChargeForm';
+import ChargeConfirmModal from '../components/charge/ChargeConfirmModal';
+import { useChargeForm } from '../hooks/useChargeForm';
 
 const UserPage: React.FC = () => {
   const [mode, setMode] = useState<'normal' | 'optimized' | null>(null);
   const [hovered, setHovered] = useState<'normal' | 'optimized' | 'home' | null>(null);
-  const [currentSoc, setCurrentSoc] = useState('');
-  const [targetSoc, setTargetSoc] = useState('');
-  const [arrivalTime, setArrivalTime] = useState('');
-  const [departureTime, setDepartureTime] = useState('');
-  const [error, setError] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
-
-  // 입력값 초기화 함수
-  const resetForm = () => {
-    setCurrentSoc('');
-    setTargetSoc('');
-    setArrivalTime('');
-    setDepartureTime('');
-    setError(null);
-  };
   const navigate = useNavigate();
+  const {
+    currentSoc,
+    setCurrentSoc,
+    targetSoc,
+    setTargetSoc,
+    arrivalTime,
+    setArrivalTime,
+    departureTime,
+    setDepartureTime,
+    error,
+    resetForm,
+    validate,
+  } = useChargeForm();
 
   return (
     <div className="min-h-screen w-screen px-0 bg-gradient-to-b from-slate-50 to-slate-200 flex flex-col items-center justify-center text-left">
@@ -82,127 +81,54 @@ const UserPage: React.FC = () => {
             </>
           )}
           {/* 입력값 확인 모달 */}
-          <Modal open={showConfirm} onClose={() => setShowConfirm(false)}>
-            <div className="flex flex-col items-center gap-4">
-              <h3 className="text-xl font-bold mb-2">입력값 확인</h3>
-              <div className="w-full flex flex-col gap-2 text-base">
-                <div><span className="font-semibold">현재 SoC:</span> {currentSoc}%</div>
-                <div><span className="font-semibold">목표 SoC:</span> {targetSoc}%</div>
-                <div><span className="font-semibold">차량 도착 시간:</span> {arrivalTime}</div>
-                <div><span className="font-semibold">출차 희망 시간:</span> {departureTime}</div>
-                <div><span className="font-semibold">모드:</span> {mode === 'normal' ? '급속 충전' : '최적화 충전'}</div>
-              </div>
-              <div className="flex gap-4 mt-4">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowConfirm(false)}
-                >
-                  수정
-                </Button>
-                <Button
-                  variant="default"
-                  onClick={() => {
-                    setShowConfirm(false);
-                    // 입력값을 state로 전달하며 이동
-                    navigate('/charge-result', {
-                      state: {
-                        currentSoc,
-                        targetSoc,
-                        arrivalTime,
-                        departureTime,
-                        mode,
-                      },
-                    });
-                    resetForm();
-                    setMode(null);
-                    // TODO: 실제 제출 처리 (API 등)
-                  }}
-                >
-                  확인
-                </Button>
-              </div>
-            </div>
-          </Modal>
-          {(mode === 'normal' || mode === 'optimized') && (
-            <form
-              className="w-full flex flex-col gap-6 animate-fade-in"
-              onSubmit={e => {
-                e.preventDefault();
-                const err = validateChargeForm({
+          <ChargeConfirmModal
+            open={showConfirm}
+            onClose={() => setShowConfirm(false)}
+            onConfirm={() => {
+              setShowConfirm(false);
+              navigate('/charge-result', {
+                state: {
                   currentSoc,
                   targetSoc,
                   arrivalTime,
                   departureTime,
-                });
-                if (err) {
-                  setError(err);
-                  return;
-                }
-                setError(null);
-                setShowConfirm(true);
+                  mode,
+                },
+              });
+              resetForm();
+              setMode(null);
+            }}
+            currentSoc={currentSoc}
+            targetSoc={targetSoc}
+            arrivalTime={arrivalTime}
+            departureTime={departureTime}
+            mode={mode as 'normal' | 'optimized'}
+          />
+          {(mode === 'normal' || mode === 'optimized') && (
+            <ChargeForm
+              currentSoc={currentSoc}
+              targetSoc={targetSoc}
+              arrivalTime={arrivalTime}
+              departureTime={departureTime}
+              error={error}
+              mode={mode}
+              onChange={(field, value) => {
+                if (field === 'currentSoc') setCurrentSoc(value);
+                if (field === 'targetSoc') setTargetSoc(value);
+                if (field === 'arrivalTime') setArrivalTime(value);
+                if (field === 'departureTime') setDepartureTime(value);
               }}
-            >
-              <h2 className="text-2xl font-bold mb-2 text-center">
-                {mode === 'normal' ? '급속 충전 정보 입력' : '최적화 충전 정보 입력'}
-              </h2>
-              <div className="flex flex-col gap-2">
-                <label className="font-semibold">현재 SoC(%)</label>
-                <Input
-                  type="number"
-                  min={0}
-                  max={100}
-                  placeholder="예: 30"
-                  value={currentSoc}
-                  onChange={e => setCurrentSoc(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="font-semibold">목표 SoC(%)</label>
-                <Input
-                  type="number"
-                  min={0}
-                  max={100}
-                  placeholder="예: 80"
-                  value={targetSoc}
-                  onChange={e => setTargetSoc(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="font-semibold">차량 도착 시간</label>
-                <Input
-                  type="time"
-                  value={arrivalTime}
-                  onChange={e => setArrivalTime(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="font-semibold">출차 희망 시간</label>
-                <Input
-                  type="time"
-                  value={departureTime}
-                  onChange={e => setDepartureTime(e.target.value)}
-                />
-              </div>
-              {error && (
-                <div className="text-red-500 text-sm text-center min-h-[24px]">{error}</div>
-              )}
-              <div className="flex flex-row gap-4 mt-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => {
-                    setMode(null);
-                    resetForm();
-                  }}
-                >
-                  뒤로
-                </Button>
-                <Button type="submit" variant="default" className="flex-1">
-                  충전 요청
-                </Button>
-              </div>
-            </form>
+              onBack={() => {
+                setMode(null);
+                resetForm();
+              }}
+              onSubmit={e => {
+                e.preventDefault();
+                if (validate()) {
+                  setShowConfirm(true);
+                }
+              }}
+            />
           )}
       </div>
     </div>
