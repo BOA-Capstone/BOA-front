@@ -56,13 +56,13 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onAdminClick, onUserClick, 
         <div className="flex flex-row gap-4 mt-4">
           <button
             onClick={onAdminClick}
-            className={`max-w-[280px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+            className={`w-[280px] py-4 bg-primary text-primary-foreground text-lg font-bold rounded-md shadow-lg border border-accent hover:border-[#a855f7] hover:text-[#a855f7] transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
             관리자
           </button>
           <button
             onClick={onUserClick}
-            className={`max-w-[280px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+            className={`w-[280px] py-4 bg-primary text-primary-foreground text-lg font-bold rounded-md shadow-lg border border-accent hover:border-[#a855f7] hover:text-[#a855f7] transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
             사용자
           </button>
