@@ -38,7 +38,7 @@ const IoTSimulator: React.FC = () => {
         }
         timerRef.current = window.setInterval(() => {
             setPorts(prev =>
-                prev.map(p => {
+                prev.map(_ => {
                     const on = Math.random() > 0.3; // 임의 on/off
                     const amp = on ? +(10 + Math.random() * 60).toFixed(1) : 0;
                     const volt = on ? 360 + Math.round(Math.random() * 40) : 0;
