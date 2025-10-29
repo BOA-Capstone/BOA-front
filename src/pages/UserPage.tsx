@@ -103,6 +103,16 @@ const UserPage: React.FC = () => {
                   variant="default"
                   onClick={() => {
                     setShowConfirm(false);
+                    // 입력값을 state로 전달하며 이동
+                    navigate('/charge-result', {
+                      state: {
+                        currentSoc,
+                        targetSoc,
+                        arrivalTime,
+                        departureTime,
+                        mode,
+                      },
+                    });
                     resetForm();
                     setMode(null);
                     // TODO: 실제 제출 처리 (API 등)
