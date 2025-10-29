@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useInView } from '../../hooks/useInView';
 import title3 from '../../assets/title3.png';
@@ -50,20 +49,20 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onAdminClick, onUserClick, 
           <span className="text-white"> 시스템</span>
         </h1>
         <p className={`text-lg text-slate-200 mb-8 mt-2 ${inView ? 'animate-fade-in' : ''}`}>
-          전기차 충전소의 실시간 현황, 위치, 사용 가능 여부, 주요 통계 정보를 확인할 수 있는 플랫폼입니다.<br />
-          누구나 쉽고 빠르게 주변 충전소를 찾고, 효율적으로 충전 계획을 세울 수 있도록 돕습니다.<br />
+          OptiEV는 전기차 충전소 스케줄링 플랫폼입니다.<br />
+          충전소 관리자와 충전소 사용자 모두에게 새로운 경험을 제공합니다.<br />
           플랫폼의 소개를 확인하려면 아래로 슬라이드해주십시오.
         </p>
         <div className="flex flex-row gap-4 mt-4">
           <button
             onClick={onAdminClick}
-            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+            className={`max-w-[280px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
             관리자
           </button>
           <button
             onClick={onUserClick}
-            className={`max-w-[200px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
+            className={`max-w-[280px] py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-bold rounded-md shadow-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
             사용자
           </button>

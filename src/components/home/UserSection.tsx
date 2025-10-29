@@ -13,8 +13,8 @@ const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className, 
       <div className="relative w-full max-w-xl mr-auto md:pl-20 flex flex-col text-left">
         <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${inView ? 'animate-slide-up' : ''}`}>사용자 모드</h2>
         <p className={`text-lg md:text-xl mb-8 ${inView ? 'animate-slide-up' : ''}`}> 
-          지도 기반으로 실시간 위치, 사용 가능/고장/점검 상태 등 충전소 현황을 한눈에 시각화합니다.<br />
-          주변 충전소 검색, 필터링 기능도 제공합니다.
+          목표 배터리, 출차 시각 등 사용자 정보를 통해 최적의 충전 비용을 계산합니다.<br />
+          TOU만 사용한 급속 충전, AI 기반의 최적화 충전이 존재합니다.<br />
         </p>
         <button
           className={`mt-4 px-8 py-3 bg-white/20 border border-blue-300 text-blue-100 font-bold rounded-full shadow-lg backdrop-blur hover:bg-blue-100 hover:text-black transition-all duration-200 w-fit ${inView ? 'animate-slide-up' : ''}`}
