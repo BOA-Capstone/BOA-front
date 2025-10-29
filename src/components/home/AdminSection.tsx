@@ -17,8 +17,8 @@ const DetailSection: React.FC<DetailSectionProps> = ({ className, onGoToMain }) 
       <div className="relative w-full max-w-2xl ml-auto md:pr-24 flex flex-col items-end text-right -translate-y-5">
         <h2 className={`text-3xl md:text-4xl font-bold mb-5 ${inView ? 'animate-slide-up' : ''}`}>관리자 모드</h2>
         <p className={`text-lg md:text-xl mb-8 ${inView ? 'animate-slide-up' : ''}`}>
-          개별 충전소의 상세 정보(주소, 운영시간, 상태, 혼잡도 등)를 제공합니다.<br />
-          상세 페이지 또는 팝업/모달로 확인할 수 있습니다.
+          충전소 관리자 입장에서 운영 비용의 최적화를 목표로 합니다.<br />
+          24시간 기준으로 차량 스케줄을 입력받아 최적의 충전 계획을 수립합니다.<br />
         </p>
         <button
           className={`mt-4 px-8 py-3 bg-white/20 border border-blue-300 text-blue-100 font-bold rounded-full shadow-lg backdrop-blur hover:bg-blue-100 hover:text-black transition-all duration-200 w-fit ${inView ? 'animate-slide-up' : ''}`}
