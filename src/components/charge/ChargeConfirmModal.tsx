@@ -23,8 +23,8 @@ const ChargeConfirmModal: React.FC<ChargeConfirmModalProps> = ({
   departureTime,
   mode,
 }) => (
-  <Modal open={open} onClose={onClose}>
-    <div className="flex flex-col items-center gap-4">
+  <Modal open={open} onClose={onClose} className="bg-black">
+    <div className="flex flex-col items-center gap-4 text-white">
       <h3 className="text-xl font-bold mb-2">입력값 확인</h3>
       <div className="w-full flex flex-col gap-2 text-base">
         <div><span className="font-semibold">현재 SoC:</span> {currentSoc}%</div>
@@ -34,8 +34,8 @@ const ChargeConfirmModal: React.FC<ChargeConfirmModalProps> = ({
         <div><span className="font-semibold">모드:</span> {mode === 'normal' ? '급속 충전' : '최적화 충전'}</div>
       </div>
       <div className="flex gap-4 mt-4">
-        <Button variant="default" onClick={onClose}>수정</Button>
-        <Button variant="default" onClick={onConfirm}>확인</Button>
+        <Button variant="secondary" onClick={onClose}>수정</Button>
+        <Button variant="secondary" onClick={onConfirm}>확인</Button>
       </div>
     </div>
   </Modal>

@@ -12,7 +12,6 @@ import StationSelectCard from '../components/user/StationSelectCard';
 import type { Station } from '../types/station';
 import type { Charger } from '../types/charger';
 
-
 const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const {
@@ -30,33 +29,25 @@ const UserPage: React.FC = () => {
 
   // 샘플 충전소 데이터
   const stations: Station[] = [
-    { id: 1, name: 'BOA 충전소 1', status: 'IDLE', address: '서울 강남구 테헤란로 1', distanceKm: 0.3 },
-    { id: 2, name: 'BOA 충전소 2', status: 'IDLE', address: '서울 강남구 테헤란로 2', distanceKm: 1.1 },
-    { id: 3, name: 'BOA 충전소 3', status: 'IDLE', address: '서울 강남구 테헤란로 3', distanceKm: 2.7 },
-    { id: 4, name: 'BOA 충전소 4', status: 'IDLE', address: '서울 강남구 테헤란로 4', distanceKm: 3.2 },
-    { id: 5, name: 'BOA 충전소 5', status: 'IDLE', address: '서울 강남구 테헤란로 5', distanceKm: 4.8 },
+    { id: 1, name: 'BOA 충전소 1', address: '서울 강남구 테헤란로 1', distanceKm: 0.3 },
+    { id: 2, name: 'BOA 충전소 2', address: '서울 강남구 테헤란로 2', distanceKm: 1.1 },
+    { id: 3, name: 'BOA 충전소 3', address: '서울 강남구 테헤란로 3', distanceKm: 2.7 },
   ];
 
   // 샘플 충전기 데이터(충전소별로 다르게 할 수도 있음)
   const chargersByStation: Record<number, Charger[]> = {
     1: [
-      { id: 1, name: '1번 포트', status: 'IDLE', type: 'AC', powerKw: 7 },
-      { id: 2, name: '2번 포트', status: 'IDLE', type: 'DC', powerKw: 50 },
-      { id: 3, name: '3번 포트', status: 'CHARGING', type: 'DC', powerKw: 100 },
+      { id: 1, name: '1번 포트', status: 'IDLE', powerKw: 7 },
+      { id: 2, name: '2번 포트', status: 'IDLE', powerKw: 50 },
+      { id: 3, name: '3번 포트', status: 'IDLE', powerKw: 100 },
+      { id: 4, name: '4번 포트', status: 'IDLE', powerKw: 100 },
+      { id: 5, name: '5번 포트', status: 'IDLE', powerKw: 100 },
     ],
     2: [
-      { id: 4, name: '1번 포트', status: 'IDLE', type: 'AC', powerKw: 7 },
-      { id: 5, name: '2번 포트', status: 'FAULT', type: 'DC', powerKw: 50 },
+      { id: 4, name: '1번 포트', status: 'IDLE', powerKw: 7 },
     ],
     3: [
-      { id: 6, name: '1번 포트', status: 'IDLE', type: 'AC', powerKw: 7 },
-    ],
-    4: [
-      { id: 7, name: '1번 포트', status: 'IDLE', type: 'DC', powerKw: 100 },
-      { id: 8, name: '2번 포트', status: 'IDLE', type: 'AC', powerKw: 7 },
-    ],
-    5: [
-      { id: 9, name: '1번 포트', status: 'IDLE', type: 'AC', powerKw: 7 },
+      { id: 6, name: '1번 포트', status: 'IDLE', powerKw: 7 },
     ],
   };
   

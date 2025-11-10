@@ -11,12 +11,13 @@ export interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   title?: string;
+  className?: string;
 }
 
-export function Modal({ open, onClose, children,}: ModalProps) {
+export function Modal({ open, onClose, children, className }: ModalProps) {
   return (
   <Dialog open={open} onOpenChange={(v: boolean) => !v && onClose()}>
-      <DialogContent className="max-w-md">
+      <DialogContent className={`${className}`}>
         <DialogHeader>
         </DialogHeader>
         <DialogDescription asChild>

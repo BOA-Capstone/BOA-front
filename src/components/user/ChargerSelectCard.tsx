@@ -15,12 +15,6 @@ const statusColor = {
   FAULT: 'bg-red-500/20 text-red-300',
 };
 
-const typeColor = {
-  AC: 'bg-blue-500/20 text-blue-300',
-  DC: 'bg-yellow-500/20 text-yellow-300',
-};
-
-
 const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ chargers, selectedId, onSelect, onBack }) => (
   <div className="w-full">
     <h1 className="text-3xl font-bold mb-8 text-white">충전기 선택</h1>
@@ -38,7 +32,6 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ chargers, selecte
             <span className={`text-xs px-2 py-1 rounded-full ${statusColor[charger.status]}`}>{charger.status}</span>
           </div>
           <div className="flex items-center gap-2 mb-1">
-            <span className={`text-xs px-2 py-1 rounded-full ${typeColor[charger.type]}`}>{charger.type}</span>
             <span className="text-xs text-white/60">{charger.powerKw}kW</span>
           </div>
         </div>
