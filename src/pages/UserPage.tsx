@@ -25,7 +25,6 @@ const UserPage: React.FC = () => {
 
   const stations = useStationStore(state => state.stations);
   const chargersByStation = useStationStore(state => state.chargersByStation);
-  const setChargerStatus = useStationStore(state => state.setChargerStatus);
 
 // ...existing code...
   
@@ -110,10 +109,6 @@ const UserPage: React.FC = () => {
         open={showConfirm}
         onClose={() => setShowConfirm(false)}
         onConfirm={() => {
-          // 충전기 상태를 CHARGING으로 변경
-          if (selectedStationId && selectedChargerId) {
-            setChargerStatus(selectedStationId, selectedChargerId, 'CHARGING');
-          }
           setShowConfirm(false);
           navigate('/charge-ai-loading', {
             state: {
@@ -124,6 +119,8 @@ const UserPage: React.FC = () => {
               mode,
               station: stations.find(s => s.id === selectedStationId) || null,
               charger: (chargersByStation[selectedStationId || 0] || []).find(c => c.id === selectedChargerId) || null,
+              selectedStationId,
+              selectedChargerId,
             },
           });
           resetForm();

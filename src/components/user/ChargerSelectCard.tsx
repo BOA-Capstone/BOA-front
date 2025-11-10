@@ -26,7 +26,7 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
 
   const [infoOpen, setInfoOpen] = React.useState(false);
   const [infoType, setInfoType] = React.useState<'power' | 'inuse' | null>(null);
-  const isBoa1 = stationName === 'BOA 충전소 1' || selectedStationId === 1;
+  const isBoa1 = stationName === 'OptiEV 충전소 1' || selectedStationId === 1;
   const chargingCount = isBoa1 ? chargers.filter(c => c.status === 'CHARGING').length : 0;
   const [pendingCharger, setPendingCharger] = React.useState<number | null>(null);
 

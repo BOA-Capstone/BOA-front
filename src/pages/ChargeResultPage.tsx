@@ -1,26 +1,35 @@
+import { CHARGER_RESULT_MAP, DEFAULT_CHARGER_RESULT } from "../constants/charge";
+import { useChargeStore } from "../store/chargeStore";
+import { useStationStore } from "../store/stationStore";
 import React, { useState } from "react";
 import { Button } from "../components/ui/button";
 import { InfoModal } from "../components/ui/info-modal";
 import { Modal } from "../components/ui/modal";
 import { useNavigate, useLocation } from "react-router-dom";
 import ChargeResultBar from "../components/charge/ChargeResultBar";
-import { BASE_COST, RAPID_COST, AI_COST, getSave, getSaveRate } from "../constants/charge";
 
 const ChargeResultPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showInfo, setShowInfo] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const { currentSoc, targetSoc, arrivalTime, departureTime, mode } = location.state || {};
+  const state = location.state || {};
+  const { currentSoc, targetSoc, arrivalTime, departureTime, mode } = state;
 
-  // 비용/절감 계산 상수 및 유틸 사용
-  const baseCost = BASE_COST;
-  const rapidCost = RAPID_COST;
-  const aiCost = AI_COST;
-  const rapidSave = getSave(baseCost, rapidCost);
-  const rapidSaveRate = getSaveRate(baseCost, rapidCost);
-  const aiSave = getSave(baseCost, aiCost);
-  const aiSaveRate = getSaveRate(baseCost, aiCost);
+  // zustand 값 먼저 받고, state 값이 있으면 덮어씀 (Hook 규칙 위반 방지)
+  const zustandStationId = useChargeStore(s => s.selectedStationId);
+  const zustandChargerId = useChargeStore(s => s.selectedChargerId);
+  const selectedStationId = state.selectedStationId !== undefined ? state.selectedStationId : zustandStationId;
+  const selectedChargerId = state.selectedChargerId !== undefined ? state.selectedChargerId : zustandChargerId;
+  const isBoa1 = selectedStationId === 1;
+  const isSpecialPort = selectedChargerId === 1 || selectedChargerId === 4;
+  let result;
+  if (isBoa1 && isSpecialPort) {
+    result = CHARGER_RESULT_MAP[selectedChargerId!];
+  } else {
+    result = DEFAULT_CHARGER_RESULT;
+  }
+  const { baseCost, rapidCost, aiCost, rapidSave, rapidSaveRate, aiSave, aiSaveRate, infoList } = result;
   const maxCost = Math.max(baseCost, rapidCost, aiCost);
 
   return (
@@ -77,13 +86,13 @@ const ChargeResultPage: React.FC = () => {
         onClose={() => setShowInfo(false)}
         className="bg-black/80 text-white rounded-2xl shadow-xl px-8 py-10"
       >
-        <h2 className="text-xl font-bold mb-4 text-center text-white">절감 원리 안내</h2>
+        <h2 className="text-xl font-bold mb-4 text-center text-white">절감 내역 안내</h2>
         <ul className="list-disc pl-5 text-sm text-white mb-2">
-          <li>전력 요금이 낮은 시간대에 집중 충전</li>
-          <li>ESS(배터리) 활용 및 태양광 등 신재생 에너지 연계</li>
-          <li>사용자 목표 SoC와 출차 시간에 맞춘 맞춤형 스케줄</li>
+          {infoList.map((msg: string, i: number) => (
+            <li key={i}>{msg}</li>
+          ))}
         </ul>
-        <div className="text-xs text-slate-400">(실제 절감 효과는 환경 및 요금제에 따라 달라질 수 있습니다)</div>
+        <div className="text-xs text-slate-400">(여러 환경과 상황에 따라 조금씩 값이 달라질 수 있습니다.)</div>
       </InfoModal>
 
       {/* 충전 시작 확인 모달 - InfoModal 바깥에 위치 */}
@@ -100,6 +109,10 @@ const ChargeResultPage: React.FC = () => {
             <Button
               variant="secondary"
               onClick={() => {
+                // 충전 시작 시에만 상태를 CHARGING으로 변경
+                if (selectedStationId && selectedChargerId) {
+                  useStationStore.getState().setChargerStatus(selectedStationId, selectedChargerId, 'CHARGING');
+                }
                 setShowConfirm(false);
                 navigate("/");
               }}
