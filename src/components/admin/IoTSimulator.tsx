@@ -110,10 +110,6 @@ const IoTSimulator: React.FC = () => {
                                 <div className="text-lg font-bold">{p.powerKw} kW</div>
                             </div>
                         </div>
-
-                        <div className="mt-2 text-xs text-white/50">
-                            갱신: {new Date(p.updatedAt).toLocaleTimeString()}
-                        </div>
                     </div>
                 ))}
             </div>
