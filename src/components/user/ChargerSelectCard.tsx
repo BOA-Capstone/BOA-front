@@ -25,16 +25,36 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
   const chargers = chargersByStation[selectedStationId || 0] || [];
 
   const [infoOpen, setInfoOpen] = React.useState(false);
+  const [infoType, setInfoType] = React.useState<'power' | 'inuse' | null>(null);
   const isBoa1 = stationName === 'BOA 충전소 1' || selectedStationId === 1;
   const chargingCount = isBoa1 ? chargers.filter(c => c.status === 'CHARGING').length : 0;
+  const [pendingCharger, setPendingCharger] = React.useState<number | null>(null);
 
   const handleChargerClick = (chargerId: number) => {
+    const charger = chargers.find(c => c.id === chargerId);
+    if (charger?.status === 'CHARGING') {
+      setInfoType('inuse');
+      setInfoOpen(true);
+      return;
+    }
     if (chargingCount >= 2) {
+      setPendingCharger(chargerId);
+      setInfoType('power');
       setInfoOpen(true);
       return;
     }
     setCharger(chargerId);
     if (onSelect) onSelect();
+  };
+
+  const handleInfoClose = () => {
+    setInfoOpen(false);
+    if (infoType === 'power' && pendingCharger !== null) {
+      setCharger(pendingCharger);
+      if (onSelect) onSelect();
+      setPendingCharger(null);
+    }
+    setInfoType(null);
   };
 
   return (
@@ -66,15 +86,21 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
           </Button>
         </div>
       )}
-      <Modal open={infoOpen} onClose={() => setInfoOpen(false)} className="bg-black">
+      <Modal open={infoOpen} onClose={handleInfoClose} className="bg-black">
         <div className="flex flex-col items-center gap-4 text-white">
-          <h3 className="text-xl font-bold mb-2">충전 불가 안내</h3>
-          <div className="w-full flex flex-col gap-2 text-base text-center">
-            <div><span className="font-semibold">계약 전력 한도로 인해</span><br/>현재 충전이 불가합니다.</div>
-            <div className="text-white/80">3시간 뒤 충전이 가능합니다.<br/>다른 충전소를 이용해 주세요.</div>
-          </div>
+          <h3 className="text-xl font-bold mb-2">충전 안내</h3>
+          {infoType === 'inuse' ? (
+            <div className="w-full flex flex-col gap-2 text-base text-center">
+              <div><span className="font-semibold">현재 사용중인 충전기입니다.</span><br/>다른 충전소를 이용해 주십시오.</div>
+            </div>
+          ) : (
+            <div className="w-full flex flex-col gap-2 text-base text-center">
+              <div><span className="font-semibold">계약 전력 한도로 인해</span><br/>충전 효율이 하락합니다.</div>
+              <div className="text-white/80">3시간 뒤 약 20% 절감 가능할 예정입니다.<br/>혹은 다른 충전소를 이용해 주십시오.</div>
+            </div>
+          )}
           <div className="flex gap-4 mt-4">
-            <Button variant="secondary" onClick={() => setInfoOpen(false)}>닫기</Button>
+            <Button variant="secondary" onClick={handleInfoClose}>닫기</Button>
           </div>
         </div>
       </Modal>
