@@ -22,7 +22,7 @@ const makeInit = (): PortState[] =>
  *   -> 나중에 mqtt.js 구독 데이터로 교체
  */
 const IoTSimulator: React.FC = () => {
-    const [brokerUp, setBrokerUp] = useState(true);
+    //const [brokerUp, setBrokerUp] = useState(true);
     const [running, setRunning] = useState(false);      // 로컬 모의 시뮬레이션 on/off
     const [ports, setPorts] = useState<PortState[]>(makeInit());
     const timerRef = useRef<number | null>(null);
