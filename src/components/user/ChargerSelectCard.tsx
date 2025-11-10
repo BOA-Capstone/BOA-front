@@ -44,9 +44,7 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
               <div className="font-semibold text-white">{charger.name}</div>
               <span className={`text-xs px-2 py-1 rounded-full ${statusColor[charger.status]}`}>{charger.status}</span>
             </div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs text-white/60">{charger.powerKw}kW</span>
-            </div>
+            {/* powerKw 필드 제거됨 */}
           </div>
         ))}
       </div>

@@ -5,13 +5,13 @@ import { useChargeStore } from '../../store/chargeStore';
 
 interface ChargeModeSelectCardProps {
   onSelect: (mode: 'normal' | 'optimized') => void;
-  onHome: () => void;
+  onBack: () => void;
   setHovered: (mode: 'normal' | 'optimized' | 'chargerSelect' | null) => void;
 }
 
 const ChargeModeSelectCard: React.FC<ChargeModeSelectCardProps> = ({
   onSelect,
-  onHome,
+  onBack,
   setHovered,
 }) => {
   const stations = useStationStore(state => state.stations);
@@ -55,7 +55,7 @@ const ChargeModeSelectCard: React.FC<ChargeModeSelectCardProps> = ({
           variant="secondary"
           size="lg"
           className="w-full text-lg hover:border-[var(--cyan)] hover:text-[var(--cyan)] hover:bg-black focus:border-[var(--cyan)] focus:text-[var(--cyan)] focus:bg-black transition-all"
-          onClick={onHome}
+          onClick={onBack}
           onMouseEnter={() => setHovered('chargerSelect')}
           onMouseLeave={() => setHovered(null)}
         >
