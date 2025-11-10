@@ -63,18 +63,7 @@ const IoTSimulator: React.FC = () => {
         <section>
             <div className="mb-4 flex items-center gap-3">
                 <h2 className="text-xl font-semibold">IoT 시뮬레이터</h2>
-                <span
-                    className={`text-xs px-2 py-1 rounded-full ${brokerUp ? "bg-green-500/20 text-green-300" : "bg-red-500/20 text-red-300"
-                        }`}
-                >
-                    Broker: {brokerUp ? "Connected" : "Disconnected"}
-                </span>
-                <button
-                    onClick={() => setBrokerUp(s => !s)}
-                    className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20"
-                >
-                    브로커 토글
-                </button>
+
 
                 <div className="ml-auto flex gap-2">
                     <button
