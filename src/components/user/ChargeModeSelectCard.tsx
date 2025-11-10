@@ -6,15 +6,26 @@ interface ChargeModeSelectCardProps {
   onHome: () => void;
   hovered: 'normal' | 'optimized' | 'chargerSelect' | null;
   setHovered: (mode: 'normal' | 'optimized' | 'chargerSelect' | null) => void;
+  stationName?: string;
+  chargerName?: string;
 }
 
 const ChargeModeSelectCard: React.FC<ChargeModeSelectCardProps> = ({
   onSelect,
   onHome,
   setHovered,
+  stationName,
+  chargerName,
 }) => (
   <>
-    <h1 className="text-3xl font-bold mb-8 text-white">충전 방식 선택</h1>
+    <h1 className="text-3xl font-bold mb-2 text-white">충전 방식 선택</h1>
+    {(stationName || chargerName) && (
+      <div className="mb-6 text-lg text-cyan-400 font-semibold text-center">
+        {stationName && <span>{stationName}</span>}
+        {stationName && chargerName && <span className="mx-2 text-white/40">/</span>}
+        {chargerName && <span>{chargerName}</span>}
+      </div>
+    )}
     <div className="flex flex-col gap-6 mb-8 w-full">
       <Button
         variant="secondary"

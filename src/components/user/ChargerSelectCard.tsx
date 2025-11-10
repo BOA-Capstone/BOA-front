@@ -7,6 +7,7 @@ interface ChargerSelectCardProps {
   selectedId: number | null;
   onSelect: (id: number) => void;
   onBack?: () => void;
+  stationName?: string;
 }
 
 const statusColor = {
@@ -15,9 +16,12 @@ const statusColor = {
   FAULT: 'bg-red-500/20 text-red-300',
 };
 
-const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ chargers, selectedId, onSelect, onBack }) => (
+const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ chargers, selectedId, onSelect, onBack, stationName }) => (
   <div className="w-full">
-    <h1 className="text-3xl font-bold mb-8 text-white">충전기 선택</h1>
+    <h1 className="text-3xl font-bold mb-2 text-white">충전기 선택</h1>
+    {stationName && (
+      <div className="mb-6 text-lg text-cyan-400 font-semibold text-center">{stationName}</div>
+    )}
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
       {chargers.map(charger => (
         <div

@@ -97,6 +97,7 @@ const UserPage: React.FC = () => {
               selectedId={selectedChargerId}
               onSelect={setSelectedChargerId}
               onBack={() => setSelectedStationId(null)}
+              stationName={stations.find(s => s.id === selectedStationId)?.name}
             />
           </div>
       )}
@@ -111,6 +112,8 @@ const UserPage: React.FC = () => {
             }}
             hovered={hovered}
             setHovered={setHovered}
+            stationName={stations.find(s => s.id === selectedStationId)?.name}
+            chargerName={(chargersByStation[selectedStationId || 0] || []).find(c => c.id === selectedChargerId)?.name}
           />
           <ModeDescription hovered={hovered} />
         </>
