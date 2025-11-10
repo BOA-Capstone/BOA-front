@@ -87,12 +87,12 @@ const IoTSimulator: React.FC = () => {
                 {ports.map((p, i) => (
                     <div key={i} className="rounded-2xl p-4 bg-white/5 border border-white/10">
                         <div className="flex items-center justify-between">
-                            <div className="font-semibold">Port #{i + 1}</div>
+                            <div className="font-semibold">충전기 #{i + 1}</div>
                             <span
                                 className={`text-xs px-2 py-1 rounded-full ${p.on ? "bg-green-500/20 text-green-300" : "bg-white/10 text-white/70"
                                     }`}
                             >
-                                {p.on ? "ON" : "OFF"}
+                                {p.on ? "충전 중" : "충전 가능"}
                             </span>
                         </div>
 
