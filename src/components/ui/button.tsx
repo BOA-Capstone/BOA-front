@@ -10,15 +10,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-black text-white border border-white shadow hover:bg-black hover:text-white hover:border-[var(--cyan)] transition-all",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm transition-all hover:border-[var(--cyan)] hover:text-[var(--cyan)] hover:bg-black focus:border-[var(--cyan)] focus:text-[var(--cyan)] focus:bg-black",
+          "bg-black text-white border border-white shadow]",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-black text-white border border-white shadow transition-all hover:bg-black hover:text-[var(--cyan)] hover:border-[var(--cyan)]",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -41,12 +35,17 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, onClick, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.currentTarget.blur();
+      if (onClick) onClick(e);
+    };
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        onClick={handleClick}
         {...props}
       />
     )

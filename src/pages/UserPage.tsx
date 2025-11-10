@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
-import { Button } from '../components/ui/button';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChargeForm from '../components/charge/ChargeForm';
 import ChargeConfirmModal from '../components/charge/ChargeConfirmModal';
 import { useChargeForm } from '../hooks/useChargeForm';
+import UserPageLayout from '../components/user/UserPageLayout';
+import ChargerSelectCard from '../components/user/ChargerSelectCard';
+import ChargeModeSelectCard from '../components/user/ChargeModeSelectCard';
+import ModeDescription from '../components/user/ModeDescription';
+import StationSelectCard from '../components/user/StationSelectCard';
+import { useChargeStore } from '../store/chargeStore';
+import { useStationStore } from '../store/stationStore';
 
 const UserPage: React.FC = () => {
-  const [mode, setMode] = useState<'normal' | 'optimized' | null>(null);
-  const [hovered, setHovered] = useState<'normal' | 'optimized' | 'home' | null>(null);
-  const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
+  const [step, setStep] = React.useState(0); // 0: station, 1: charger, 2: mode
+  const [hovered, setHovered] = React.useState<'normal' | 'optimized' | 'chargerSelect' | null>(null);
+  const [showConfirm, setShowConfirm] = React.useState(false);
+  const mode = useChargeStore(state => state.mode);
+  const setMode = useChargeStore(state => state.setMode);
+  const selectedStationId = useChargeStore(state => state.selectedStationId);
+  const setStation = useChargeStore(state => state.setStation);
+  const selectedChargerId = useChargeStore(state => state.selectedChargerId);
+  const setCharger = useChargeStore(state => state.setCharger);
+
+  const stations = useStationStore(state => state.stations);
+  const chargersByStation = useStationStore(state => state.chargersByStation);
+
+// ...existing code...
+  
   const {
     currentSoc,
     setCurrentSoc,
@@ -24,114 +42,98 @@ const UserPage: React.FC = () => {
     validate,
   } = useChargeForm();
 
+  // '처음으로' 버튼 클릭 시 모든 상태 초기화
+  const handleHome = () => {
+    setStation(null);
+    setCharger(null);
+    setMode(null);
+    setStep(0);
+    resetForm();
+    navigate('/');
+  };
+
   return (
-  <div className="min-h-screen w-screen px-0 bg-[url('/src/assets/photo8.jpg')] bg-cover bg-center flex flex-col items-center justify-center text-left">
-      <div className="fixed top-0 left-0 w-full z-30">
-  <div className="w-full bg-black text-white text-center text-xl font-bold py-4 shadow-lg">
-          <span className="text-[var(--cyan)]">OptiEV</span> 사용자
-        </div>
-      </div>
-  <div className="w-full max-w-2xl mx-auto bg-black/80 rounded-2xl shadow-xl px-16 py-16 flex flex-col items-center mt-16">
-          {mode === null && (
-            <>
-              <h1 className="text-3xl font-bold mb-8 text-white">충전 방식 선택</h1>
-              <div className="flex flex-col gap-6 mb-8 w-full">
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="w-full text-lg hover:border-[var(--cyan)] hover:text-[var(--cyan)] hover:bg-black focus:border-[var(--cyan)] focus:text-[var(--cyan)] focus:bg-black transition-all"
-                  onClick={() => setMode('normal')}
-                  onMouseEnter={() => setHovered('normal')}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  급속 충전
-                </Button>
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="w-full text-lg hover:border-[var(--cyan)] hover:text-[var(--cyan)] hover:bg-black focus:border-[var(--cyan)] focus:text-[var(--cyan)] focus:bg-black transition-all"
-                  onClick={() => setMode('optimized')}
-                  onMouseEnter={() => setHovered('optimized')}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  최적화 충전
-                </Button>
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="w-full text-lg hover:border-[var(--cyan)] hover:text-[var(--cyan)] hover:bg-black focus:border-[var(--cyan)] focus:text-[var(--cyan)] focus:bg-black transition-all"
-                  onClick={() => navigate('/')}
-                  onMouseEnter={() => setHovered('home')}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  처음으로
-                </Button>
-              </div>
-              <div className="min-h-[32px] flex items-end w-full">
-                {hovered === 'normal' && (
-                  <div className="w-full text-center text-base text-[var(--cyan)] animate-fade-in">빠르게 충전하는 일반 모드입니다.</div>
-                )}
-                {hovered === 'optimized' && (
-                  <div className="w-full text-center text-base text-[var(--cyan)] animate-fade-in">AI가 추천하는 최적의 충전 계획을 제공합니다.</div>
-                )}
-                {hovered === 'home' && (
-                  <div className="w-full text-center text-base text-[var(--cyan)] animate-fade-in">메인 화면으로 이동합니다.</div>
-                )}
-              </div>
-            </>
-          )}
-          {/* 입력값 확인 모달 */}
-          <ChargeConfirmModal
-            open={showConfirm}
-            onClose={() => setShowConfirm(false)}
-            onConfirm={() => {
-              setShowConfirm(false);
-              navigate('/charge-result', {
-                state: {
-                  currentSoc,
-                  targetSoc,
-                  arrivalTime,
-                  departureTime,
-                  mode,
-                },
-              });
-              resetForm();
-              setMode(null);
+    <UserPageLayout onHome={handleHome}>
+      {/* Step 1: 충전소 선택 */}
+      {step === 0 && (
+        <StationSelectCard onBack={handleHome} onSelect={() => setStep(1)} />
+      )}
+      {/* Step 2: 충전기 선택 */}
+      {step === 1 && (
+        <ChargerSelectCard onBack={() => setStep(0)} onSelect={() => setStep(2)} />
+      )}
+      {/* Step 3: 충전 방식 선택 */}
+      {step === 2 && (
+        <>
+          <ChargeModeSelectCard
+            onSelect={mode => {
+              setMode(mode);
+              setStep(3);
             }}
-            currentSoc={currentSoc}
-            targetSoc={targetSoc}
-            arrivalTime={arrivalTime}
-            departureTime={departureTime}
-            mode={mode as 'normal' | 'optimized'}
+            onHome={handleHome}
+            setHovered={setHovered}
           />
-          {(mode === 'normal' || mode === 'optimized') && (
-            <ChargeForm
-              currentSoc={currentSoc}
-              targetSoc={targetSoc}
-              arrivalTime={arrivalTime}
-              departureTime={departureTime}
-              error={error}
-              mode={mode}
-              onChange={(field, value) => {
-                if (field === 'currentSoc') setCurrentSoc(value);
-                if (field === 'targetSoc') setTargetSoc(value);
-                if (field === 'arrivalTime') setArrivalTime(value);
-                if (field === 'departureTime') setDepartureTime(value);
-              }}
-              onBack={() => {
-                setMode(null);
-                resetForm();
-              }}
-              onSubmit={e => {
-                e.preventDefault();
-                if (validate()) {
-                  setShowConfirm(true);
-                }
-              }}
-            />
-          )}
-      </div>
-    </div>
+          <ModeDescription hovered={hovered} />
+        </>
+      )}
+      {/* Step 4: 충전 정보 입력 및 확인 */}
+      {step === 3 && (
+        <ChargeForm
+          currentSoc={currentSoc}
+          targetSoc={targetSoc}
+          arrivalTime={arrivalTime}
+          departureTime={departureTime}
+          error={error}
+          mode={mode as 'normal' | 'optimized' | null}
+          onChange={(field, value) => {
+            if (field === 'currentSoc') setCurrentSoc(value);
+            if (field === 'targetSoc') setTargetSoc(value);
+            if (field === 'arrivalTime') setArrivalTime(value);
+            if (field === 'departureTime') setDepartureTime(value);
+          }}
+          onBack={() => {
+            setMode(null);
+            setStep(2);
+            resetForm();
+          }}
+          onSubmit={e => {
+            e.preventDefault();
+            if (validate()) {
+              setShowConfirm(true);
+            }
+          }}
+        />
+      )}
+      {/* Confirm Modal */}
+      <ChargeConfirmModal
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={() => {
+          setShowConfirm(false);
+          navigate('/charge-ai-loading', {
+            state: {
+              currentSoc,
+              targetSoc,
+              arrivalTime,
+              departureTime,
+              mode,
+              station: stations.find(s => s.id === selectedStationId) || null,
+              charger: (chargersByStation[selectedStationId || 0] || []).find(c => c.id === selectedChargerId) || null,
+            },
+          });
+          resetForm();
+          setMode(null);
+          setStation(null);
+          setCharger(null);
+          setStep(0);
+        }}
+        currentSoc={currentSoc}
+        targetSoc={targetSoc}
+        arrivalTime={arrivalTime}
+        departureTime={departureTime}
+        mode={mode as 'normal' | 'optimized'}
+      />
+    </UserPageLayout>
   );
 };
 

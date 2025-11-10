@@ -11,7 +11,7 @@ interface ChargeFormProps {
   onChange: (field: 'currentSoc' | 'targetSoc' | 'arrivalTime' | 'departureTime', value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   onBack: () => void;
-  mode: 'normal' | 'optimized';
+  mode: 'normal' | 'optimized' | null;
 }
 
 const ChargeForm: React.FC<ChargeFormProps> = ({
