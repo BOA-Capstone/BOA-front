@@ -1,3 +1,4 @@
+
 import { create } from 'zustand';
 import type { Station } from '../types/station';
 import type { Charger } from '../types/charger';
@@ -5,13 +6,17 @@ import type { Charger } from '../types/charger';
 interface StationState {
   stations: Station[];
   chargersByStation: Record<number, Charger[]>;
+  setChargerStatus: (stationId: number, chargerId: number, status: 'IDLE' | 'CHARGING' | 'FAULT') => void;
+  chargerMessageById: Record<number, string>;
+  setChargerMessage: (chargerId: number, message: string) => void;
 }
 
-export const useStationStore = create<StationState>(() => ({
+
+export const useStationStore = create<StationState>((set) => ({
   stations: [
-    { id: 1, name: 'BOA 충전소 1', address: '서울 강남구 테헤란로 1', distanceKm: 0.3 },
-    { id: 2, name: 'BOA 충전소 2', address: '서울 강남구 테헤란로 2', distanceKm: 1.1 },
-    { id: 3, name: 'BOA 충전소 3', address: '서울 강남구 테헤란로 3', distanceKm: 2.7 },
+    { id: 1, name: 'OptiEV 충전소 1', address: '서울 광진구', distanceKm: 0.1 },
+    { id: 2, name: 'OptiEV 충전소 2', address: '서울 광진구', distanceKm: 1.1 },
+    { id: 3, name: 'OptiEV 충전소 3', address: '서울 광진구', distanceKm: 2.7 },
   ],
   chargersByStation: {
     1: [
@@ -27,5 +32,30 @@ export const useStationStore = create<StationState>(() => ({
     3: [
       { id: 6, name: '1번 포트', status: 'IDLE', powerKw: 7 },
     ],
+  },
+  setChargerStatus: (stationId, chargerId, status) => {
+    set(state => {
+      const chargers = state.chargersByStation[stationId]?.map(charger =>
+        charger.id === chargerId ? { ...charger, status } : charger
+      ) || [];
+      return {
+        chargersByStation: {
+          ...state.chargersByStation,
+          [stationId]: chargers,
+        },
+      };
+    });
+  },
+  chargerMessageById: {
+    1: '1번 포트 절감 메시지 예시입니다.',
+    4: '4번 포트 절감 메시지 예시입니다.',
+  },
+  setChargerMessage: (chargerId, message) => {
+    set(state => ({
+      chargerMessageById: {
+        ...state.chargerMessageById,
+        [chargerId]: message,
+      },
+    }));
   },
 }));

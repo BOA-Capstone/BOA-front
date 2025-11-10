@@ -70,7 +70,7 @@ const UserPage: React.FC = () => {
               setMode(mode);
               setStep(3);
             }}
-            onHome={handleHome}
+            onBack={() => setStep(1)}
             setHovered={setHovered}
           />
           <ModeDescription hovered={hovered} />
@@ -119,6 +119,8 @@ const UserPage: React.FC = () => {
               mode,
               station: stations.find(s => s.id === selectedStationId) || null,
               charger: (chargersByStation[selectedStationId || 0] || []).find(c => c.id === selectedChargerId) || null,
+              selectedStationId,
+              selectedChargerId,
             },
           });
           resetForm();
