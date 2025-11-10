@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { useStationStore } from '../../store/stationStore';
 import { useChargeStore } from '../../store/chargeStore';
+import { Modal } from '../ui/modal';
 
 interface ChargerSelectCardProps {
   onBack?: () => void;
@@ -22,6 +23,20 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
   const setCharger = useChargeStore(state => state.setCharger);
   const stationName = stations.find(s => s.id === selectedStationId)?.name;
   const chargers = chargersByStation[selectedStationId || 0] || [];
+
+  const [infoOpen, setInfoOpen] = React.useState(false);
+  const isBoa1 = stationName === 'BOA 충전소 1' || selectedStationId === 1;
+  const chargingCount = isBoa1 ? chargers.filter(c => c.status === 'CHARGING').length : 0;
+
+  const handleChargerClick = (chargerId: number) => {
+    if (chargingCount >= 2) {
+      setInfoOpen(true);
+      return;
+    }
+    setCharger(chargerId);
+    if (onSelect) onSelect();
+  };
+
   return (
     <div className="w-full">
       <h1 className="text-3xl font-bold mb-2 text-white">충전기 선택</h1>
@@ -35,16 +50,12 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
             className={`rounded-2xl p-4 bg-white/5 border transition-all cursor-pointer select-none
               ${selectedId === charger.id ? 'border-[var(--cyan)] ring-2 ring-[var(--cyan)] bg-black/60' : 'border-white/10 hover:border-[var(--cyan)] hover:bg-black/40'}
               ${charger.status === 'FAULT' ? 'opacity-50 pointer-events-none' : ''}`}
-            onClick={() => {
-              setCharger(charger.id);
-              if (onSelect) onSelect();
-            }}
+            onClick={() => handleChargerClick(charger.id)}
           >
             <div className="flex items-center justify-between mb-2">
               <div className="font-semibold text-white">{charger.name}</div>
               <span className={`text-xs px-2 py-1 rounded-full ${statusColor[charger.status]}`}>{charger.status}</span>
             </div>
-            {/* powerKw 필드 제거됨 */}
           </div>
         ))}
       </div>
@@ -55,6 +66,18 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
           </Button>
         </div>
       )}
+      <Modal open={infoOpen} onClose={() => setInfoOpen(false)} className="bg-black">
+        <div className="flex flex-col items-center gap-4 text-white">
+          <h3 className="text-xl font-bold mb-2">충전 불가 안내</h3>
+          <div className="w-full flex flex-col gap-2 text-base text-center">
+            <div><span className="font-semibold">계약 전력 한도로 인해</span><br/>현재 충전이 불가합니다.</div>
+            <div className="text-white/80">3시간 뒤 충전이 가능합니다.<br/>다른 충전소를 이용해 주세요.</div>
+          </div>
+          <div className="flex gap-4 mt-4">
+            <Button variant="secondary" onClick={() => setInfoOpen(false)}>닫기</Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
