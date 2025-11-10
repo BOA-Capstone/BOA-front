@@ -120,7 +120,7 @@ const UserPage: React.FC = () => {
         onClose={() => setShowConfirm(false)}
         onConfirm={() => {
           setShowConfirm(false);
-          navigate('/charge-result', {
+          navigate('/charge-ai-loading', {
             state: {
               currentSoc,
               targetSoc,

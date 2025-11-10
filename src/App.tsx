@@ -3,6 +3,7 @@ import HomeScreen from './pages/HomeScreen';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import ChargeResultPage from './pages/ChargeResultPage';
+import ChargeAiLoadingPage from './pages/ChargeAiLoadingPage';
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/charge-result" element={<ChargeResultPage />} />
+                <Route path="/charge-ai-loading" element={<ChargeAiLoadingPage />} />
             </Routes>
         </BrowserRouter>
     );
