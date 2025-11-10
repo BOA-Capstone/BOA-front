@@ -34,7 +34,7 @@ const ChargeConfirmModal: React.FC<ChargeConfirmModalProps> = ({
         <div><span className="font-semibold">모드:</span> {mode === 'normal' ? '급속 충전' : '최적화 충전'}</div>
       </div>
       <div className="flex gap-4 mt-4">
-        <Button variant="outline" onClick={onClose}>수정</Button>
+        <Button variant="default" onClick={onClose}>수정</Button>
         <Button variant="default" onClick={onConfirm}>확인</Button>
       </div>
     </div>
