@@ -63,7 +63,7 @@ const ChargeResultPage: React.FC = () => {
       </div>
       <Button
         className="w-full mb-3"
-        variant="outline"
+        variant="secondary"
         onClick={() => setShowInfo(true)}
       >
         절감 원리 보기
