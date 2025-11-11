@@ -16,7 +16,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({ className }) => {
   return (
     <section
       ref={ref}
-      className={`relative min-h-screen flex items-center justify-center bg-[url('/src/assets/photo3.jpg')] bg-cover bg-center text-white px-4 ${className || ''}`}
+      className={`relative min-h-screen flex items-center justify-center bg-[url('/src/assets/photo3.jpg')] bg-cover bg-center text-white px-5 ${className || ''}`}
     >
       <div className="absolute inset-0 bg-black/30" />
       <div className="relative w-full max-w-2xl ml-auto md:pr-24 flex flex-col items-end text-left -translate-y-5">
