@@ -1,12 +1,12 @@
-import { CHARGER_RESULT_MAP, DEFAULT_CHARGER_RESULT } from "../constants/charge";
-import { useChargeStore } from "../store/chargeStore";
-import { useStationStore } from "../store/stationStore";
+import { DEFAULT_CHARGER_RESULT } from "../constants/charge";
 import React, { useState } from "react";
 import { Button } from "../components/ui/button";
 import { InfoModal } from "../components/ui/info-modal";
 import { Modal } from "../components/ui/modal";
 import { useNavigate, useLocation } from "react-router-dom";
 import ChargeResultBar from "../components/charge/ChargeResultBar";
+import { useChargeStore } from "../store/chargeStore";
+import { useStationStore } from "../store/stationStore";
 
 const ChargeResultPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,20 +16,17 @@ const ChargeResultPage: React.FC = () => {
   const state = location.state || {};
   const { currentSoc, targetSoc, arrivalTime, departureTime, mode } = state;
 
-  // zustand 값 먼저 받고, state 값이 있으면 덮어씀 (Hook 규칙 위반 방지)
-  const zustandStationId = useChargeStore(s => s.selectedStationId);
-  const zustandChargerId = useChargeStore(s => s.selectedChargerId);
-  const selectedStationId = state.selectedStationId !== undefined ? state.selectedStationId : zustandStationId;
-  const selectedChargerId = state.selectedChargerId !== undefined ? state.selectedChargerId : zustandChargerId;
-  const isBoa1 = selectedStationId === 1;
-  const isSpecialPort = selectedChargerId === 1 || selectedChargerId === 4;
-  let result;
-  if (isBoa1 && isSpecialPort) {
-    result = CHARGER_RESULT_MAP[selectedChargerId!];
-  } else {
-    result = DEFAULT_CHARGER_RESULT;
-  }
-  const { baseCost, rapidCost, aiCost, rapidSave, rapidSaveRate, aiSave, aiSaveRate, infoList } = result;
+  // zustand에서 선택된 충전소/충전기 id 가져오기
+  const selectedStationId = useChargeStore(s => s.selectedStationId);
+  const selectedChargerId = useChargeStore(s => s.selectedChargerId);
+  const setChargerStatus = useStationStore(s => s.setChargerStatus);
+
+  // location.state → zustand 순서로 fallback
+  const stationId = state.selectedStationId ?? selectedStationId;
+  const chargerId = state.selectedChargerId ?? selectedChargerId;
+
+  // 항상 DEFAULT_CHARGER_RESULT만 사용
+  const { baseCost, rapidCost, aiCost, rapidSave, rapidSaveRate, aiSave, aiSaveRate, infoList } = DEFAULT_CHARGER_RESULT;
   const maxCost = Math.max(baseCost, rapidCost, aiCost);
 
   return (
@@ -86,13 +83,12 @@ const ChargeResultPage: React.FC = () => {
         onClose={() => setShowInfo(false)}
         className="bg-black/80 text-white rounded-2xl shadow-xl px-8 py-10"
       >
-        <h2 className="text-xl font-bold mb-4 text-center text-white">절감 내역 안내</h2>
+        <h2 className="text-xl font-bold mb-4 text-center text-white">절감 원리 안내</h2>
         <ul className="list-disc pl-5 text-sm text-white mb-2">
           {infoList.map((msg: string, i: number) => (
             <li key={i}>{msg}</li>
           ))}
         </ul>
-        <div className="text-xs text-slate-400">(여러 환경과 상황에 따라 조금씩 값이 달라질 수 있습니다.)</div>
       </InfoModal>
 
       {/* 충전 시작 확인 모달 - InfoModal 바깥에 위치 */}
@@ -110,8 +106,8 @@ const ChargeResultPage: React.FC = () => {
               variant="secondary"
               onClick={() => {
                 // 충전 시작 시에만 상태를 CHARGING으로 변경
-                if (selectedStationId && selectedChargerId) {
-                  useStationStore.getState().setChargerStatus(selectedStationId, selectedChargerId, 'CHARGING');
+                if (stationId && chargerId) {
+                  setChargerStatus(stationId, chargerId, 'CHARGING');
                 }
                 setShowConfirm(false);
                 navigate("/");
