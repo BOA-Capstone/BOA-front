@@ -3,4 +3,5 @@ export type Station = {
   name: string;
   address: string;
   distanceKm: number;
+  desc: string;
 };

@@ -5,6 +5,21 @@ export const AI_COST = 3800; // AI 최적화
 
 export const getSave = (base: number, compare: number) => base - compare;
 export const getSaveRate = (base: number, compare: number) => Math.round(((base - compare) / base) * 100);
+export const DEFAULT_CHARGER_RESULT = {
+	baseCost: 10000,
+	rapidCost: 12000,
+	aiCost: 9500,
+	rapidSave: 2000,
+	rapidSaveRate: 17,
+	aiSave: 500,
+	aiSaveRate: 5,
+	infoList: [
+		'일반 충전은 즉시 충전을 시작하지만, 스케줄링 충전은 AI가 전기 요금이 저렴한 시간대를 자동으로 찾아 충전 일정을 분산합니다.',
+		'이로 인해 불필요한 비용을 줄이고, 사용자의 목표 배터리 잔량에 맞춰 효율적으로 충전이 진행됩니다.',
+		'실제 절감액과 충전 시간은 사용자의 선택과 충전소 상황에 따라 달라질 수 있습니다.',
+	],
+};
+
 export const CHARGER_RESULT_MAP: Record<number, {
 	baseCost: number;
 	rapidCost: number;
@@ -15,20 +30,25 @@ export const CHARGER_RESULT_MAP: Record<number, {
 	aiSaveRate: number;
 	infoList: string[];
 }> = {
-};
-
-// 기본값 (1, 4번 외)
-export const DEFAULT_CHARGER_RESULT = {
-	baseCost: 10000,
-	rapidCost: 12000,
-	aiCost: 9500,
-	rapidSave: 2000,
-	rapidSaveRate: 17,
-	aiSave: 500,
-	aiSaveRate: 5,
-	 infoList: [
-	 '일반 충전은 즉시 충전을 시작하지만, 스케줄링 충전은 AI가 전기 요금이 저렴한 시간대를 자동으로 찾아 충전 일정을 분산합니다.',
-	 '이로 인해 불필요한 비용을 줄이고, 사용자의 목표 배터리 잔량에 맞춰 효율적으로 충전이 진행됩니다.',
-	 '실제 절감액과 충전 시간은 사용자의 선택과 충전소 상황에 따라 달라질 수 있습니다.',
-	 ],
+	1: {
+		baseCost: 6792,
+		rapidCost: 18000,
+		aiCost: 5129,
+		rapidSave: 6000,
+		rapidSaveRate: 33,
+		aiSave: 1663,
+		aiSaveRate: 24.5,
+		infoList: DEFAULT_CHARGER_RESULT.infoList,
+	},
+	4: {
+		baseCost: 6692,
+		rapidCost: 20000,
+		aiCost: 4810,
+		rapidSave: 5000,
+		rapidSaveRate: 25,
+		aiSave: 1882,
+		aiSaveRate: 28.1,
+		infoList: DEFAULT_CHARGER_RESULT.infoList,
+	},
+	// ...필요시 다른 포트도 동일하게 추가...
 };

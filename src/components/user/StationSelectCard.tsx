@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
 import { useStationStore } from '../../store/stationStore';
@@ -31,7 +30,9 @@ const StationSelectCard: React.FC<StationSelectCardProps> = ({ onBack, onSelect 
               <div className="font-semibold text-white">{station.name}</div>
             </div>
             <div className="text-sm text-white/70 mb-1">{station.address}</div>
-            <div className="text-xs text-[var(--cyan)]">{station.distanceKm.toFixed(1)} km 거리</div>
+            {station.desc && (
+              <div className="text-xs text-cyan-400 font-bold mt-1 whitespace-pre-line">{station.desc}</div>
+            )}
           </div>
         ))}
       </div>

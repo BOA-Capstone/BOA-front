@@ -1,4 +1,4 @@
-import { DEFAULT_CHARGER_RESULT } from "../constants/charge";
+import { DEFAULT_CHARGER_RESULT, CHARGER_RESULT_MAP } from "../constants/charge";
 import React, { useState } from "react";
 import { Button } from "../components/ui/button";
 import { InfoModal } from "../components/ui/info-modal";
@@ -25,8 +25,12 @@ const ChargeResultPage: React.FC = () => {
   const stationId = state.selectedStationId ?? selectedStationId;
   const chargerId = state.selectedChargerId ?? selectedChargerId;
 
-  // 항상 DEFAULT_CHARGER_RESULT만 사용
-  const { baseCost, rapidCost, aiCost, rapidSave, rapidSaveRate, aiSave, aiSaveRate, infoList } = DEFAULT_CHARGER_RESULT;
+  // 포트별 결과: 있으면 CHARGER_RESULT_MAP, 없으면 DEFAULT_CHARGER_RESULT
+  const result = chargerId && CHARGER_RESULT_MAP[chargerId]
+    ? CHARGER_RESULT_MAP[chargerId]
+    : DEFAULT_CHARGER_RESULT;
+  const { baseCost, rapidCost, aiCost, rapidSave, rapidSaveRate, aiSave, aiSaveRate } = result;
+  const infoList = DEFAULT_CHARGER_RESULT.infoList;
   const maxCost = Math.max(baseCost, rapidCost, aiCost);
 
   return (
@@ -89,6 +93,9 @@ const ChargeResultPage: React.FC = () => {
             <li key={i}>{msg}</li>
           ))}
         </ul>
+        <div className="text-xs text-slate-400 mt-4 text-center">
+          ※ TOU 요금, 태양광 에너지, ESS 에너지를 활용하였습니다.
+        </div>
       </InfoModal>
 
       {/* 충전 시작 확인 모달 - InfoModal 바깥에 위치 */}

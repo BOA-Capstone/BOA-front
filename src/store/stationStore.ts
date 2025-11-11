@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 import type { Station } from '../types/station';
 import type { Charger } from '../types/charger';
@@ -6,17 +5,16 @@ import type { Charger } from '../types/charger';
 interface StationState {
   stations: Station[];
   chargersByStation: Record<number, Charger[]>;
-  setChargerStatus: (stationId: number, chargerId: number, status: 'IDLE' | 'CHARGING' | 'FAULT') => void;
+  setChargerStatus: (stationId: number, chargerId: number, status: 'IDLE' | 'CHARGING' | 'FAULT',) => void;
   chargerMessageById: Record<number, string>;
   setChargerMessage: (chargerId: number, message: string) => void;
 }
 
-
 export const useStationStore = create<StationState>((set) => ({
   stations: [
-    { id: 1, name: '세종대 BOA 충전소', address: '서울 광진구', distanceKm: 0.1 },
-    { id: 2, name: '광진구청 주차장', address: '서울 광진구 자양동', distanceKm: 2.7 },
-    { id: 3, name: '어린이대공원 후문주차장', address: '서울 광진구 능동', distanceKm: 1.1 },
+    { id: 1, name: '세종대 BOA 충전소', address: '서울 광진구', desc: '절약된 충전 가능', distanceKm: 0.5 },
+    { id: 2, name: '광진구청 주차장', address: '서울 광진구 자양동', desc: '', distanceKm: 1.2 },
+    { id: 3, name: '어린이대공원 후문주차장', address: '서울 광진구 능동', desc: '', distanceKm: 2.3 },
   ],
   chargersByStation: {
     1: [

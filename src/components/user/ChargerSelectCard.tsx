@@ -21,7 +21,8 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
   const selectedStationId = useChargeStore(state => state.selectedStationId);
   const selectedId = useChargeStore(state => state.selectedChargerId);
   const setCharger = useChargeStore(state => state.setCharger);
-  const stationName = stations.find(s => s.id === selectedStationId)?.name;
+  const selectedStation = stations.find(s => s.id === selectedStationId);
+  const stationName = selectedStation?.name;
   const chargers = chargersByStation[selectedStationId || 0] || [];
 
   const [infoOpen, setInfoOpen] = React.useState(false);
@@ -61,7 +62,16 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
     <div className="w-full">
       <h1 className="text-3xl font-bold mb-2 text-white">충전기 선택</h1>
       {stationName && (
-        <div className="mb-6 text-lg text-cyan-400 font-semibold text-center">{stationName}</div>
+        <>
+          <div className="mb-1 text-lg text-cyan-400 font-semibold text-center">{stationName}</div>
+          {selectedStation?.address && (
+            <div className="text-sm text-white/70 text-center mb-1">{selectedStation.address}</div>
+          )}
+          {selectedStation?.desc && (
+            <div className="mb-6 text-xs text-cyan-400 text-center whitespace-pre-line">{selectedStation.desc}</div>
+          )}
+          {!selectedStation?.desc && <div className="mb-6" />}
+        </>
       )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {chargers.map(charger => (
