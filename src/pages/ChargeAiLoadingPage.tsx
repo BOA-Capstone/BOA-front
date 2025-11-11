@@ -8,7 +8,7 @@ const ChargeAiLoadingPage: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/charge-result", { state: location.state });
-    }, 5000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [navigate, location.state]);
 
