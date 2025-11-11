@@ -30,7 +30,7 @@ const AdminPage: React.FC = () => {
             <button onClick={() => setTab("live")} className={`px-3 py-2 rounded-xl ${tab === 'live' ? 'bg-purple-600/80' : 'bg-white/10 hover:bg-white/20'}`}>운영 대시보드</button>
             <button onClick={() => setTab("iot")} className={`px-3 py-2 rounded-xl ${tab === 'iot' ? 'bg-purple-600/80' : 'bg-white/10 hover:bg-white/20'}`}>IoT 시뮬레이터</button>
             <button onClick={() => setTab("cost")} className={`px-3 py-2 rounded-xl ${tab === 'cost' ? 'bg-purple-600/80' : 'bg-white/10 hover:bg-white/20'}`}>요금/최적화 비교</button>
-            <button onClick={() => navigate('/')} className="ml-4 px-3 py-2 rounded-xl bg-cyan-600/80 hover:bg-cyan-400/90 text-white font-bold transition-all">처음으로</button>
+            <button onClick={() => navigate('/')} className="ml-4 px-3 py-2 rounded-xl bg-white/10 hover:bg-purple-600/80 text-white font-bold transition-all">처음으로</button>
           </nav>
         </div>
       </header>

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { useStationStore } from "../../store/stationStore";
+import type { Charger } from "../../types/charger";
 
 type ChargerStatus = "IDLE" | "CHARGING" | "FAULT";
 
@@ -36,51 +37,41 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
 
     // 내부 표시용 상태(실데이터가 단순해도 카드에 필요한 값들 보강)
     const [rows, setRows] = useState<ChargerView[]>(() =>
-        chargers.map((c: any, i: number) => ({
-            id: c.id ?? i + 1,
-            name: c.name ?? `충전기 ${i + 1}`,
-            status: (c.status as ChargerStatus) ?? "IDLE",
-            powerKw: Number(c.powerKw ?? 0),
-            volt: Number(c.volt ?? 0),
-            amp: Number(c.amp ?? 0),
-            soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
-            updatedAt: new Date().toISOString(),
-        }))
+        chargers.map((c: Charger, i: number) => {
+            let status: ChargerStatus = "IDLE";
+            if (c.id === 1 || c.id === 4) status = "CHARGING";
+            return {
+                id: c.id ?? i + 1,
+                name: c.name ?? `충전기 ${i + 1}`,
+                status,
+                powerKw: Number(c.powerKw ?? 0),
+                volt: Number(c.volt ?? 0),
+                amp: Number(c.amp ?? 0),
+                soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
+                updatedAt: c.updatedAt ?? new Date().toISOString(),
+            };
+        })
     );
 
     // 선택된 충전소가 바뀌면 초기화
     useEffect(() => {
-        const next = (chargersByStation[stationId] || []).map((c: any, i: number) => ({
-            id: c.id ?? i + 1,
-            name: c.name ?? `충전기 ${i + 1}`,
-            status: (c.status as ChargerStatus) ?? "IDLE",
-            powerKw: Number(c.powerKw ?? 0),
-            volt: Number(c.volt ?? 0),
-            amp: Number(c.amp ?? 0),
-            soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
-            updatedAt: new Date().toISOString(),
-        }));
+        const next = (chargersByStation[stationId] || []).map((c: Charger, i: number) => {
+            let status: ChargerStatus = "IDLE";
+            if (c.id === 1 || c.id === 4) status = "CHARGING";
+            return {
+                id: c.id ?? i + 1,
+                name: c.name ?? `충전기 ${i + 1}`,
+                status,
+                powerKw: Number(c.powerKw ?? 0),
+                volt: Number(c.volt ?? 0),
+                amp: Number(c.amp ?? 0),
+                soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
+                updatedAt: c.updatedAt ?? new Date().toISOString(),
+            };
+        });
         setRows(next);
     }, [stationId, chargersByStation]);
 
-    // 더미 라이브 업데이트 (MQTT로 교체 예정)
-    useEffect(() => {
-        const t = setInterval(() => {
-            setRows((prev) =>
-                prev.map((r) => {
-                    const charging = Math.random() > 0.4;
-                    const amp = charging ? +(10 + Math.random() * 60).toFixed(1) : 0;
-                    const volt = charging ? 360 + Math.round(Math.random() * 40) : 0;
-                    const powerKw = +((amp * volt) / 1000).toFixed(2);
-                    const status: ChargerStatus = charging ? "CHARGING" : Math.random() < 0.02 ? "FAULT" : "IDLE";
-                    const soc = Math.min(100, r.soc + (charging ? Math.random() * 1.5 : 0));
-
-                    return { ...r, amp, volt, powerKw, soc, status, updatedAt: new Date().toISOString() };
-                })
-            );
-        }, 1500);
-        return () => clearInterval(t);
-    }, []);
 
     const online = useMemo(() => rows.filter((r) => r.status !== "FAULT").length, [rows]);
 
@@ -88,11 +79,17 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
         <section className="w-full">
             <div className="mb-4 flex items-center gap-3">
                 <h1 className="text-3xl font-bold text-white">충전기 현황</h1>
-                <div className="text-lg text-cyan-400 font-semibold">{stationName}</div>
+                <div className="text-lg text-purple-600/80 font-semibold">{stationName}</div>
                 <div className="text-sm text-white/70">온라인: {online}/{rows.length}</div>
                 {onBack && (
                     <div className="ml-auto">
-                        <Button variant="secondary" size="lg" onClick={onBack}>뒤로가기</Button>
+                        <Button
+                            className=" hover:border-purple-600/100 hover:text-purple-600/100 border border-white/10 text-white transition-colors"
+                            size="lg"
+                            onClick={onBack}
+                        >
+                            뒤로가기
+                        </Button>
                     </div>
                 )}
             </div>

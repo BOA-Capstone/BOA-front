@@ -28,8 +28,8 @@ const AdminStationSelectCard: React.FC<AdminStationSelectCardProps> = ({
                         className={[
                             "rounded-2xl p-4 bg-white/5 border transition-all cursor-pointer select-none",
                             selectedId === st.id
-                                ? "border-[var(--cyan)] ring-2 ring-[var(--cyan)] bg-black/60"
-                                : "border-white/10 hover:border-[var(--cyan)] hover:bg-black/40",
+                                ? "border-purple-600/80 ring-2 ring-purple-600/80 bg-black/60"
+                                : "border-white/10 hover:border-purple-600/80 hover:bg-black/40",
                         ].join(" ")}
                         onClick={() => onSelect?.(st.id)}
                     >
@@ -38,7 +38,7 @@ const AdminStationSelectCard: React.FC<AdminStationSelectCardProps> = ({
                         </div>
                         <div className="text-sm text-white/70 mb-1">{st.address}</div>
                         {typeof st.distanceKm === "number" && (
-                            <div className="text-xs text-[var(--cyan)]">
+                            <div className="text-xs text-purple-600/80">
                                 {st.distanceKm.toFixed(1)} km 거리
                             </div>
                         )}
