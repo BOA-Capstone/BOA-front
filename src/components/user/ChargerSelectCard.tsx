@@ -67,10 +67,10 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
           {selectedStation?.address && (
             <div className="text-sm text-white/70 text-center mb-1">{selectedStation.address}</div>
           )}
-          {selectedStation?.desc && (
+          {selectedStation?.desc && !(isBoa1 && chargingCount >= 2) && (
             <div className="mb-6 text-xs text-cyan-400 text-center whitespace-pre-line">{selectedStation.desc}</div>
           )}
-          {!selectedStation?.desc && <div className="mb-6" />}
+          {(!selectedStation?.desc || (isBoa1 && chargingCount >= 2)) && <div className="mb-6" />}
         </>
       )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
