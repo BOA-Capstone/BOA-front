@@ -14,7 +14,7 @@ const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className }
     navigate('/user');
   };
   return (
-    <section ref={ref} className={`relative w-full min-h-screen flex items-center justify-center text-white bg-[url('/src/assets/photo6.jpg')] bg-cover bg-center ${className || ''}`}> 
+    <section ref={ref} className={`relative w-full min-h-screen flex items-center justify-center text-white bg-[url('/src/assets/photo6.jpg')] bg-cover bg-center px-5 ${className || ''}`}> 
       <div className="relative w-full max-w-xl mr-auto md:pl-20 flex flex-col text-left">
         <div className="w-full bg-white/20 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 p-6 sm:p-10 flex flex-col items-start text-left transition-all duration-300 mx-auto md:mx-0">
           <h2 className={`text-3xl md:text-4xl font-bold mb-6 w-full text-left ${inView ? 'animate-slide-up' : ''}`}>사용자 모드</h2>

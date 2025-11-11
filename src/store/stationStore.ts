@@ -14,9 +14,9 @@ interface StationState {
 
 export const useStationStore = create<StationState>((set) => ({
   stations: [
-    { id: 1, name: 'OptiEV 충전소 1', address: '서울 광진구', distanceKm: 0.1 },
-    { id: 2, name: 'OptiEV 충전소 2', address: '서울 광진구', distanceKm: 1.1 },
-    { id: 3, name: 'OptiEV 충전소 3', address: '서울 광진구', distanceKm: 2.7 },
+    { id: 1, name: '세종대 BOA 충전소', address: '서울 광진구', distanceKm: 0.1 },
+    { id: 2, name: '광진구청 주차장', address: '서울 광진구 자양동', distanceKm: 2.7 },
+    { id: 3, name: '어린이대공원 후문주차장', address: '서울 광진구 능동', distanceKm: 1.1 },
   ],
   chargersByStation: {
     1: [
@@ -28,9 +28,11 @@ export const useStationStore = create<StationState>((set) => ({
     ],
     2: [
       { id: 4, name: '1번 포트', status: 'IDLE', powerKw: 7 },
+      { id: 5, name: '2번 포트', status: 'IDLE', powerKw: 7 },
     ],
     3: [
       { id: 6, name: '1번 포트', status: 'IDLE', powerKw: 7 },
+      { id: 7, name: '2번 포트', status: 'IDLE', powerKw: 7 },
     ],
   },
   setChargerStatus: (stationId, chargerId, status) => {
