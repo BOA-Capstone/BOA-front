@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Modal } from "../ui/modal";
 import { useStationStore } from "../../store/stationStore";
 import type { Charger } from "../../types/charger";
+import { scheduleTableByPort } from "../../constants/scheduleTable";
 
 type ChargerStatus = "IDLE" | "CHARGING" | "FAULT";
 
@@ -124,8 +125,29 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
                                 </Button>
                                 <Modal open={openInfoModalId === r.id} onClose={() => setOpenInfoModalId(null)}>
                                     <div className="flex flex-col items-center gap-4 text-white p-6">
-                                        <h3 className="text-xl font-bold mb-2">스케줄링 계획 안내</h3>
-                                        <div className="text-base text-center">이 포트의 스케줄링 계획/정보를 여기에 표시할 수 있습니다.</div>
+                                        <h3 className="text-xl font-bold mb-2">스케줄링 계획 안내 (15분 단위)</h3>
+                                        {scheduleTableByPort[r.id] ? (
+                                            <div className="w-full max-h-72 overflow-y-auto">
+                                                <table className="w-full text-sm border-separate border-spacing-y-1">
+                                                    <thead>
+                                                        <tr className="sticky top-0 bg-black">
+                                                            <th className="px-2 py-1 border-b border-white/30 text-left">시간</th>
+                                                            <th className="px-2 py-1 border-b border-white/30 text-left">전략</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {scheduleTableByPort[r.id].map(([time, plan], idx) => (
+                                                            <tr key={idx} className="odd:bg-white/5 even:bg-white/10">
+                                                                <td className="px-2 py-1 whitespace-nowrap">{time}</td>
+                                                                <td className="px-2 py-1 whitespace-nowrap">{plan}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        ) : (
+                                            <div className="text-base text-center">이 포트의 스케줄링 계획/정보를 여기에 표시할 수 있습니다.</div>
+                                        )}
                                         <Button
                                             className="mt-4 w-full hover:border-purple-600/100 hover:text-purple-600/100 text-white border-white transition-colors"
                                             size="lg"
