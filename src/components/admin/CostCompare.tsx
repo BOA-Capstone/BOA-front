@@ -9,9 +9,9 @@ const CostCompare: React.FC = () => {
 
     // 더미 계산: TOU vs 우리 최적화(절감 약 20~30%)
     const result = useMemo(() => {
-        const base = period === "today" ? 12000 : period === "yesterday" ? 11500 : period === "week" ? 84000 : 360000;
+        const base = period === "today" ? 13484 : period === "yesterday" ? 11500 : period === "week" ? 84000 : 360000;
         const tou = base;
-        const optimal = Math.round(base * 0.78);
+        const optimal = Math.round(base * 0.7371);
         const rapid = Math.round(base * 1.05);
         const chosen = scenario === "optimal" ? optimal : rapid;
         const peakTou = 62;

@@ -109,7 +109,6 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
                             <div className="bg-white/5 rounded-xl p-3">SoC<div className="text-lg font-bold">{r.soc.toFixed(0)}%</div></div>
                         </div>
 
-                        <div className="mt-2 text-xs text-white/50">갱신: {new Date(r.updatedAt).toLocaleTimeString()}</div>
                     </div>
                 ))}
             </div>
