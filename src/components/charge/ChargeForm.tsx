@@ -30,7 +30,7 @@ const ChargeForm: React.FC<ChargeFormProps> = ({
       {mode === 'normal' ? '급속 충전 정보 입력' : '최적화 충전 정보 입력'}
     </h2>
     <div className="flex flex-col gap-2">
-      <label className="font-semibold text-white">현재 SoC(%)</label>
+      <label className="font-semibold text-white">현재 배터리 잔량(%)</label>
       <Input
         type="number"
         min={0}
@@ -41,7 +41,7 @@ const ChargeForm: React.FC<ChargeFormProps> = ({
       />
     </div>
     <div className="flex flex-col gap-2">
-      <label className="font-semibold text-white">목표 SoC(%)</label>
+      <label className="font-semibold text-white">목표 배터리 잔량(%)</label>
       <Input
         type="number"
         min={0}

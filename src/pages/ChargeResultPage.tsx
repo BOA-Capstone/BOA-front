@@ -4,7 +4,7 @@ import { Button } from "../components/ui/button";
 import { InfoModal } from "../components/ui/info-modal";
 import { Modal } from "../components/ui/modal";
 import { useNavigate, useLocation } from "react-router-dom";
-import ChargeResultBar from "../components/charge/ChargeResultBar";
+import ChargeResultBarVertical from "../components/charge/ChargeResultBarVertical";
 import { useChargeStore } from "../store/chargeStore";
 import { useStationStore } from "../store/stationStore";
 
@@ -31,7 +31,6 @@ const ChargeResultPage: React.FC = () => {
     : DEFAULT_CHARGER_RESULT;
   const { baseCost, rapidCost, aiCost, rapidSave, rapidSaveRate, aiSave, aiSaveRate } = result;
   const infoList = DEFAULT_CHARGER_RESULT.infoList;
-  const maxCost = Math.max(baseCost, rapidCost, aiCost);
 
   return (
     <div className="min-h-screen w-screen flex flex-col items-center justify-center bg-[url('/src/assets/photo9.jpg')] bg-cover bg-center">
@@ -39,35 +38,26 @@ const ChargeResultPage: React.FC = () => {
       <h1 className="text-3xl font-bold mb-6 text-center">예상 충전 결과</h1>
       <div className="w-full flex flex-col gap-4 mb-8">
         <div className="text-lg text-center text-cyan-400 mb-2">충전 스케줄링 결과가 완성되었습니다!</div>
-        {/* 입력값 요약 */}
-        <div className="w-full flex flex-col gap-1 text-base mb-4">
-          <div><span className="font-semibold">현재 SoC:</span> {currentSoc ?? '-'}</div>
-          <div><span className="font-semibold">목표 SoC:</span> {targetSoc ?? '-'}</div>
-          <div><span className="font-semibold">차량 도착 시간:</span> {arrivalTime ?? '-'}</div>
-          <div><span className="font-semibold">출차 희망 시간:</span> {departureTime ?? '-'}</div>
-          <div><span className="font-semibold">모드:</span> {mode === 'normal' ? '급속 충전' : mode === 'optimized' ? '최적화 충전' : '-'}</div>
-        </div>
+        {/* 입력값 요약(출력 생략) */}
         {/* 비교 시각화: 모드에 따라 분기 */}
         {mode === 'normal' && (
-          <div className="w-full mb-6">
-            <div className="font-bold text-cyan-400 mb-2">일반 충전 vs 급속 충전</div>
-            <div className="flex flex-col gap-2">
-              <ChargeResultBar label="일반 충전" cost={baseCost} maxCost={maxCost} colorClass="bg-gray-400" />
-              <ChargeResultBar label="급속 충전" cost={rapidCost} maxCost={maxCost} colorClass="bg-blue-400" />
+          <div className="w-full mb-6 flex flex-col items-center">
+            <div className="flex flex-row gap-8 justify-center items-end h-56">
+              <ChargeResultBarVertical label="일반\n충전" cost={baseCost} baseCost={baseCost} colorClass="bg-gray-400" />
+              <ChargeResultBarVertical label="급속\n충전" cost={rapidCost} baseCost={baseCost} colorClass="bg-blue-400" />
             </div>
-            <div className="mt-2 text-sm text-cyan-400 font-semibold text-right">
+            <div className="mt-4 text-2xl text-cyan-400 font-bold text-center">
               절감액: {rapidSave.toLocaleString()}원 ({rapidSaveRate}%↓)
             </div>
           </div>
         )}
         {mode === 'optimized' && (
-          <div className="w-full mb-2">
-            <div className="font-bold text-cyan-400 mb-2">일반 충전 vs 최적화 충전</div>
-            <div className="flex flex-col gap-2">
-              <ChargeResultBar label="일반 충전" cost={baseCost} maxCost={maxCost} colorClass="bg-gray-400" />
-              <ChargeResultBar label="최적화 충전" cost={aiCost} maxCost={maxCost} colorClass="bg-cyan-500" />
+          <div className="w-full mb-2 flex flex-col items-center">
+            <div className="flex flex-row gap-8 justify-center items-end h-56">
+              <ChargeResultBarVertical label="일반 충전" cost={baseCost} baseCost={baseCost} colorClass="bg-gray-400" />
+              <ChargeResultBarVertical label="최적화 충전" cost={aiCost} baseCost={baseCost} colorClass="bg-cyan-500" />
             </div>
-            <div className="mt-2 text-sm text-cyan-400 font-semibold text-right">
+            <div className="mt-4 text-2xl text-cyan-400 font-bold text-center">
               절감액: {aiSave.toLocaleString()}원 ({aiSaveRate}%↓)
             </div>
           </div>
@@ -88,6 +78,14 @@ const ChargeResultPage: React.FC = () => {
         className="bg-black/80 text-white rounded-2xl shadow-xl px-8 py-10"
       >
         <h2 className="text-xl font-bold mb-4 text-center text-white">절감 원리 안내</h2>
+        {/* 입력값 요약 */}
+        <div className="w-full flex flex-col gap-1 text-base mb-4">
+          <div><span className="font-semibold">현재 배터리 잔량:</span> {currentSoc ?? '-'}%</div>
+          <div><span className="font-semibold">목표 배터리 잔량:</span> {targetSoc ?? '-'}%</div>
+          <div><span className="font-semibold">차량 도착 시간:</span> {arrivalTime ?? '-'}</div>
+          <div><span className="font-semibold">출차 희망 시간:</span> {departureTime ?? '-'}</div>
+          <div><span className="font-semibold">모드:</span> {mode === 'normal' ? '급속 충전' : mode === 'optimized' ? '최적화 충전' : '-'}</div>
+        </div>
         <ul className="list-disc pl-5 text-sm text-white mb-2">
           {infoList.map((msg: string, i: number) => (
             <li key={i}>{msg}</li>

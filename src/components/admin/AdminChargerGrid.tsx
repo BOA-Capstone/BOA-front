@@ -57,23 +57,28 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
     // 각 포트별 info-modal 오픈 상태 관리
     const [openInfoModalId, setOpenInfoModalId] = useState<number | null>(null);
 
-    // 선택된 충전소가 바뀌면 초기화
+    // 선택된 충전소가 바뀌거나, 3초마다 자동 갱신
     useEffect(() => {
-        const next = (chargersByStation[stationId] || []).map((c: Charger, i: number) => {
-            let status: ChargerStatus = "IDLE";
-            if (c.id === 1 || c.id === 4) status = "CHARGING";
-            return {
-                id: c.id ?? i + 1,
-                name: c.name ?? `충전기 ${i + 1}`,
-                status,
-                powerKw: Number(c.powerKw ?? 0),
-                volt: Number(c.volt ?? 0),
-                amp: Number(c.amp ?? 0),
-                soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
-                updatedAt: c.updatedAt ?? new Date().toISOString(),
-            };
-        });
-        setRows(next);
+        const updateRows = () => {
+            const next = (chargersByStation[stationId] || []).map((c: Charger, i: number) => {
+                let status: ChargerStatus = "IDLE";
+                if (c.id === 1 || c.id === 4) status = "CHARGING";
+                return {
+                    id: c.id ?? i + 1,
+                    name: c.name ?? `충전기 ${i + 1}`,
+                    status,
+                    powerKw: Number(c.powerKw ?? 0),
+                    volt: Number(c.volt ?? 0),
+                    amp: Number(c.amp ?? 0),
+                    soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
+                    updatedAt: c.updatedAt ?? new Date().toISOString(),
+                };
+            });
+            setRows(next);
+        };
+        updateRows();
+        const interval = setInterval(updateRows, 3000);
+        return () => clearInterval(interval);
     }, [stationId, chargersByStation]);
 
 

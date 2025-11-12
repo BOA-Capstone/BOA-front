@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdEvStation } from 'react-icons/md';
 import { Button } from '../ui/button';
 import { useStationStore } from '../../store/stationStore';
 import { useChargeStore } from '../../store/chargeStore';
@@ -15,7 +16,10 @@ const StationSelectCard: React.FC<StationSelectCardProps> = ({ onBack, onSelect 
   const setStation = useChargeStore(state => state.setStation);
   return (
     <div className="w-full">
-      <h1 className="text-3xl font-bold mb-8 text-white">충전소 선택</h1>
+      <div className="flex items-center gap-2 mb-8">
+        <h1 className="text-3xl font-bold text-white">충전소 선택</h1>
+        <MdEvStation className="text-cyan-400 text-3xl" />
+      </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {stations.map(station => {
           const isBOA = station.id === 1;

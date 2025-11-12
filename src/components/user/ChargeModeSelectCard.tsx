@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaBolt } from 'react-icons/fa';
 import { Button } from '../ui/button';
 import { useStationStore } from '../../store/stationStore';
 import { useChargeStore } from '../../store/chargeStore';
@@ -22,7 +23,10 @@ const ChargeModeSelectCard: React.FC<ChargeModeSelectCardProps> = ({
   const chargerName = (chargersByStation[selectedStationId || 0] || []).find(c => c.id === selectedChargerId)?.name;
   return (
     <>
-      <h1 className="text-3xl font-bold mb-2 text-white">충전 방식 선택</h1>
+      <div className="flex items-center gap-2 mb-2">
+        <h1 className="text-3xl font-bold text-white">충전 방식 선택</h1>
+        <FaBolt className="text-cyan-400 text-2xl" />
+      </div>
       {(stationName || chargerName) && (
         <div className="mb-6 text-lg text-cyan-400 font-semibold text-center">
           {stationName && <span>{stationName}</span>}

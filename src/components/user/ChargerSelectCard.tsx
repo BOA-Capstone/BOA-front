@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaPlug } from 'react-icons/fa';
 import { Button } from '../ui/button';
 import { useStationStore } from '../../store/stationStore';
 import { useChargeStore } from '../../store/chargeStore';
@@ -60,7 +61,10 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
 
   return (
     <div className="w-full">
-      <h1 className="text-3xl font-bold mb-2 text-white">충전기 선택</h1>
+      <div className="flex items-center gap-2 mb-2">
+        <h1 className="text-3xl font-bold text-white">충전기 선택</h1>
+        <FaPlug className="text-cyan-400 text-2xl" />
+      </div>
       {stationName && (
         <>
           <div className="mb-1 text-lg text-cyan-400 font-semibold text-center">{stationName}</div>
@@ -75,18 +79,21 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
       )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {chargers.map(charger => (
-          <div
-            key={charger.id}
-            className={`rounded-2xl p-4 bg-white/5 border transition-all cursor-pointer select-none
-              ${selectedId === charger.id ? 'border-[var(--cyan)] ring-2 ring-[var(--cyan)] bg-black/60' : 'border-white/10 hover:border-[var(--cyan)] hover:bg-black/40'}
-              ${charger.status === 'FAULT' ? 'opacity-50 pointer-events-none' : ''}`}
-            onClick={() => handleChargerClick(charger.id)}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div className="font-semibold text-white">{charger.name}</div>
-              <span className={`text-xs px-2 py-1 rounded-full ${statusColor[charger.status]}`}>{charger.status}</span>
+            <div
+              key={charger.id}
+              className={`rounded-2xl p-4 bg-white/5 border transition-all cursor-pointer select-none
+                ${selectedId === charger.id ? 'border-[var(--cyan)] ring-2 ring-[var(--cyan)] bg-black/60' : 'border-white/10 hover:border-[var(--cyan)] hover:bg-black/40'}
+                ${charger.status === 'FAULT' ? 'opacity-50 pointer-events-none' : ''}`}
+              onClick={() => handleChargerClick(charger.id)}
+            >
+              <div className="flex flex-col items-center mb-2 gap-1">
+                <div className="flex items-center gap-2 font-semibold text-white">
+                  <FaPlug className="text-cyan-400 text-lg" />
+                  {charger.name}
+                </div>
+                <span className={`text-xs px-2 py-1 rounded-full mt-1 ${statusColor[charger.status]}`}>{charger.status}</span>
+              </div>
             </div>
-          </div>
         ))}
       </div>
       {onBack && (

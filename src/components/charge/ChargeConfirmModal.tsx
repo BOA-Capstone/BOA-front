@@ -27,8 +27,8 @@ const ChargeConfirmModal: React.FC<ChargeConfirmModalProps> = ({
     <div className="flex flex-col items-center gap-4 text-white">
       <h3 className="text-xl font-bold mb-2">입력값 확인</h3>
       <div className="w-full flex flex-col gap-2 text-base">
-        <div><span className="font-semibold">현재 SoC:</span> {currentSoc}%</div>
-        <div><span className="font-semibold">목표 SoC:</span> {targetSoc}%</div>
+        <div><span className="font-semibold">현재 배터리 잔량:</span> {currentSoc}%</div>
+        <div><span className="font-semibold">목표 배터리 잔량:</span> {targetSoc}%</div>
         <div><span className="font-semibold">차량 도착 시간:</span> {arrivalTime}</div>
         <div><span className="font-semibold">출차 희망 시간:</span> {departureTime}</div>
         <div><span className="font-semibold">모드:</span> {mode === 'normal' ? '급속 충전' : '최적화 충전'}</div>

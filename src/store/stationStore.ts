@@ -18,11 +18,11 @@ export const useStationStore = create<StationState>((set) => ({
   ],
   chargersByStation: {
     1: [
-  { id: 1, name: '1번 포트', status: 'IDLE', powerKw: 50, volt: 380, amp: 20, soc: 40 },
-  { id: 2, name: '2번 포트', status: 'IDLE', powerKw: 0, volt: 5, amp: 0, soc: 30 },
-  { id: 3, name: '3번 포트', status: 'IDLE', powerKw: 0, volt: 3, amp: 0, soc: 20 },
-  { id: 4, name: '4번 포트', status: 'IDLE', powerKw: 100, volt: 400, amp: 32, soc: 40 },
-  { id: 5, name: '5번 포트', status: 'IDLE', powerKw: 0, volt: 5, amp: 0, soc: 55 },
+      { id: 1, name: '1번 포트', status: 'IDLE', powerKw: 50, volt: 380, amp: 20, soc: 40 },
+      { id: 2, name: '2번 포트', status: 'IDLE', powerKw: 0, volt: 0, amp: 0, soc: 30 },
+      { id: 3, name: '3번 포트', status: 'IDLE', powerKw: 0, volt: 0, amp: 0, soc: 20 },
+      { id: 4, name: '4번 포트', status: 'IDLE', powerKw: 100, volt: 400, amp: 32, soc: 40 },
+      { id: 5, name: '5번 포트', status: 'IDLE', powerKw: 0, volt: 0, amp: 0, soc: 55 },
     ],
     2: [
       { id: 4, name: '1번 포트', status: 'IDLE', powerKw: 7, volt: 220, amp: 8, soc: 30 },
