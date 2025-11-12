@@ -129,7 +129,6 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
                             <div className="bg-white/5 rounded-xl p-3">전력<div className="text-lg font-bold">{r.powerKw} kW</div></div>
                             <div className="bg-white/5 rounded-xl p-3">전압<div className="text-lg font-bold">{r.volt} V</div></div>
                             <div className="bg-white/5 rounded-xl p-3">전류<div className="text-lg font-bold">{r.amp} A</div></div>
-                            <div className="bg-white/5 rounded-xl p-3">SoC<div className="text-lg font-bold">{r.soc.toFixed(0)}%</div></div>
                         </div>
 
                         {r.status === 'CHARGING' && (
