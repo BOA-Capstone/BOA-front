@@ -63,13 +63,27 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
             const next = (chargersByStation[stationId] || []).map((c: Charger, i: number) => {
                 let status: ChargerStatus = "IDLE";
                 if (c.id === 1 || c.id === 4) status = "CHARGING";
+                // 1번, 4번 포트는 전력/전압/전류를 랜덤 갱신
+                let powerKw = Number(c.powerKw ?? 0);
+                let volt = Number(c.volt ?? 0);
+                let amp = Number(c.amp ?? 0);
+                if (c.id === 1) {
+                  powerKw = Math.round((40 + Math.random() * 20) * 10) / 10; // 40~60 kW
+                  volt = Math.round((350 + Math.random() * 50)); // 350~400 V
+                  amp = Math.round((15 + Math.random() * 10)); // 15~25 A
+                }
+                if (c.id === 4) {
+                  powerKw = Math.round((80 + Math.random() * 40) * 10) / 10; // 80~120 kW
+                  volt = Math.round((380 + Math.random() * 40)); // 380~420 V
+                  amp = Math.round((25 + Math.random() * 10)); // 25~35 A
+                }
                 return {
                     id: c.id ?? i + 1,
                     name: c.name ?? `충전기 ${i + 1}`,
                     status,
-                    powerKw: Number(c.powerKw ?? 0),
-                    volt: Number(c.volt ?? 0),
-                    amp: Number(c.amp ?? 0),
+                    powerKw,
+                    volt,
+                    amp,
                     soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
                     updatedAt: c.updatedAt ?? new Date().toISOString(),
                 };
