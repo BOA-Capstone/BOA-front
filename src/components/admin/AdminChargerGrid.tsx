@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
+import { Modal } from "../ui/modal";
 import { useStationStore } from "../../store/stationStore";
 import type { Charger } from "../../types/charger";
 
@@ -52,6 +53,8 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
             };
         })
     );
+    // 각 포트별 info-modal 오픈 상태 관리
+    const [openInfoModalId, setOpenInfoModalId] = useState<number | null>(null);
 
     // 선택된 충전소가 바뀌면 초기화
     useEffect(() => {
@@ -110,13 +113,30 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
                         </div>
 
                         {r.status === 'CHARGING' && (
-                            <Button
-                                className="mt-4 w-full hover:border-purple-600/100 hover:text-purple-600/100 border border-white/10 text-white transition-colors"
-                                size="lg"
-                                type="button"
-                            >
-                                스케줄링 계획
-                            </Button>
+                            <>
+                                <Button
+                                    className="mt-4 w-full hover:border-purple-600/100 hover:text-purple-600/100 border border-white/10 text-white transition-colors"
+                                    size="lg"
+                                    type="button"
+                                    onClick={() => setOpenInfoModalId(r.id)}
+                                >
+                                    스케줄링 계획
+                                </Button>
+                                <Modal open={openInfoModalId === r.id} onClose={() => setOpenInfoModalId(null)}>
+                                    <div className="flex flex-col items-center gap-4 text-white p-6">
+                                        <h3 className="text-xl font-bold mb-2">스케줄링 계획 안내</h3>
+                                        <div className="text-base text-center">이 포트의 스케줄링 계획/정보를 여기에 표시할 수 있습니다.</div>
+                                        <Button
+                                            className="mt-4 w-full hover:border-purple-600/100 hover:text-purple-600/100 text-white border-white transition-colors"
+                                            size="lg"
+                                            type="button"
+                                            onClick={() => setOpenInfoModalId(null)}
+                                        >
+                                            닫기
+                                        </Button>
+                                    </div>
+                                </Modal>
+                            </>
                         )}
                     </div>
                 ))}
