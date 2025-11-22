@@ -17,7 +17,7 @@ const VisualizationSection: React.FC<VisualizationSectionProps> = ({ className }
     <section ref={ref} className={`relative w-full min-h-screen flex items-center justify-center text-white bg-[url('/src/assets/photo6.jpg')] bg-cover bg-center px-5 ${className || ''}`}> 
       <div className="relative w-full max-w-xl mr-auto md:pl-20 flex flex-col text-left">
         <div className="w-full bg-white/20 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 p-6 sm:p-10 flex flex-col items-start text-left transition-all duration-300 mx-auto md:mx-0">
-          <h2 className={`text-3xl md:text-4xl font-bold mb-6 w-full text-left ${inView ? 'animate-slide-up' : ''}`}>사용자 모드</h2>
+          <h2 className={`text-3xl md:text-4xl font-bold mb-6 w-full text-left ${inView ? 'animate-slide-up' : ''}`}>운전자 모드</h2>
           <p className={`text-lg md:text-xl mb-8 w-full text-left ${inView ? 'animate-slide-up' : ''}`}> 
             목표 배터리, 출차 시각 등 사용자 정보를 통해 최적의 충전 비용을 계산합니다.<br />
             TOU만 사용한 급속 충전, AI 기반의 최적화 충전이 존재합니다.<br />

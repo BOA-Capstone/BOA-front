@@ -21,9 +21,9 @@ const DetailSection: React.FC<DetailSectionProps> = ({ className }) => {
       <div className="absolute inset-0 bg-black/30" />
       <div className="relative w-full max-w-2xl ml-auto md:pr-24 flex flex-col items-end text-left -translate-y-5">
   <div className="w-full bg-white/20 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 p-6 sm:p-10 flex flex-col items-start text-left transition-all duration-300 mx-auto md:mx-0">
-          <h2 className={`text-3xl md:text-4xl font-bold mb-5 w-full text-left ${inView ? 'animate-slide-up' : ''}`}>관리자 모드</h2>
+          <h2 className={`text-3xl md:text-4xl font-bold mb-5 w-full text-left ${inView ? 'animate-slide-up' : ''}`}>운영자 모드</h2>
           <p className={`text-lg md:text-xl mb-8 w-full text-left ${inView ? 'animate-slide-up' : ''}`}> 
-            충전소 관리자 입장에서 운영 비용의 최적화를 목표로 합니다.<br />
+            충전소 운영자 입장에서 운영 비용의 최적화를 목표로 합니다.<br />
             24시간 기준으로 차량 스케줄을 입력받아 최적의 충전 계획을 수립합니다.<br />
           </p>
           <button

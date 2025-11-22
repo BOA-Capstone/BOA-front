@@ -50,7 +50,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onAdminClick, onUserClick, 
         </h1>
         <p className={`text-base sm:text-lg text-slate-200 mb-8 mt-2 text-center sm:text-left ${inView ? 'animate-fade-in' : ''}`}>
           OptiEV는 전기차 충전소 스케줄링 플랫폼입니다.<br />
-          충전소 관리자와 충전소 사용자 모두에게 새로운 경험을 제공합니다.<br />
+          충전소 운영자와 전기차 운전자 모두에게 새로운 경험을 제공합니다.<br />
           플랫폼의 소개를 확인하려면 아래로 슬라이드해주십시오.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full items-center sm:items-start">
@@ -58,13 +58,13 @@ const IntroSection: React.FC<IntroSectionProps> = ({ onAdminClick, onUserClick, 
             onClick={onAdminClick}
             className={`w-full sm:w-[180px] py-4 bg-primary text-primary-foreground text-lg font-bold rounded-md shadow-lg border border-accent hover:border-[#a855f7] hover:text-[#a855f7] transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
-            관리자
+            충전소 운영자
           </button>
           <button
             onClick={onUserClick}
             className={`w-full sm:w-[180px] py-4 bg-primary text-primary-foreground text-lg font-bold rounded-md shadow-lg border border-accent hover:border-[var(--cyan)] hover:text-[var(--cyan)] transition-all duration-300 ${inView ? 'animate-fade-in' : ''}`}
           >
-            사용자
+            전기차 운전자
           </button>
         </div>
       </div>

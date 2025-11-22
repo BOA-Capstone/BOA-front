@@ -24,7 +24,7 @@ const AdminPage: React.FC = () => {
       <header className="sticky top-0 z-20 backdrop-blur bg-white/5 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold">
-            <span className="text-purple-400">OptiEV</span> 관리자
+            <span className="text-purple-400">OptiEV</span> 운영자
           </h1>
           <nav className="flex gap-2 items-center">
             <button onClick={() => setTab("live")} className={`px-3 py-2 rounded-xl ${tab === 'live' ? 'bg-purple-600/80' : 'bg-white/10 hover:bg-white/20'}`}>운영 대시보드</button>
