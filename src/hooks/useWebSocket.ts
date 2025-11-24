@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import {
-  StompWebSocketService,
   type ChargerStatusMessage,
   type StompMessageHandler,
   type StompErrorHandler,
 } from '@/services/websocketService';
+import { websocketManager } from '@/services/websocketManager';
 
 interface UseWebSocketOptions {
   url: string;
@@ -51,26 +51,22 @@ interface UseWebSocketReturn {
 export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
   const { url, autoConnect = false, onError } = options;
 
-  const serviceRef = useRef<StompWebSocketService | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [subscriptionCount, setSubscriptionCount] = useState(0);
   const unsubscribersRef = useRef<Map<string, () => void>>(new Map());
 
-  // WebSocket 서비스 초기화
+  // WebSocket 매니저 초기화
   useEffect(() => {
-    if (!serviceRef.current) {
-      serviceRef.current = new StompWebSocketService(url);
-    }
+    websocketManager.initialize(url);
   }, [url]);
 
   // 연결 함수
   const connect = useCallback(async () => {
-    if (!serviceRef.current) return;
-
     try {
-      await serviceRef.current.connect();
+      const service = websocketManager.getService();
+      await service.connect();
       setIsConnected(true);
-      setSubscriptionCount(serviceRef.current.getSubscriptionCount());
+      setSubscriptionCount(service.getSubscriptionCount());
     } catch (error) {
       const err = error instanceof Error ? error : new Error('WebSocket 연결 실패');
       console.error('[useWebSocket] 연결 오류:', err);
@@ -80,43 +76,37 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     }
   }, [onError]);
 
-  // 연결 해제 함수
+  // 연결 해제 함수 (실제로는 구독만 해제, 연결은 유지)
   const disconnect = useCallback(async () => {
-    if (!serviceRef.current) return;
-
     try {
-      // 모든 구독 해제
+      // 이 컴포넌트의 구독만 해제
       unsubscribersRef.current.forEach((unsubscribe) => {
         unsubscribe();
       });
       unsubscribersRef.current.clear();
 
-      await serviceRef.current.disconnect();
-      setIsConnected(false);
-      setSubscriptionCount(0);
+      const service = websocketManager.getService();
+      setSubscriptionCount(service.getSubscriptionCount());
     } catch (error) {
-      console.error('[useWebSocket] 연결 해제 오류:', error);
+      console.error('[useWebSocket] 구독 해제 오류:', error);
     }
   }, []);
 
   // 구독 함수
   const subscribe = useCallback(
     (topic: string, handler: StompMessageHandler, errorHandler?: StompErrorHandler) => {
-      if (!serviceRef.current) {
-        console.warn('[useWebSocket] 서비스가 초기화되지 않았습니다.');
-        return;
-      }
-
       try {
+        const service = websocketManager.getService();
+
         // 이미 구독 중이면 기존 구독 해제
         if (unsubscribersRef.current.has(topic)) {
           const existingUnsubscribe = unsubscribersRef.current.get(topic);
           existingUnsubscribe?.();
         }
 
-        const unsubscribe = serviceRef.current.subscribe(topic, handler, errorHandler);
+        const unsubscribe = service.subscribe(topic, handler, errorHandler);
         unsubscribersRef.current.set(topic, unsubscribe);
-        setSubscriptionCount(serviceRef.current.getSubscriptionCount());
+        setSubscriptionCount(service.getSubscriptionCount());
       } catch (error) {
         const err = error instanceof Error ? error : new Error('구독 실패');
         console.error('[useWebSocket] 구독 오류:', err);
@@ -134,8 +124,11 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     if (unsubscribeFunc) {
       unsubscribeFunc();
       unsubscribersRef.current.delete(topic);
-      if (serviceRef.current) {
-        setSubscriptionCount(serviceRef.current.getSubscriptionCount());
+      try {
+        const service = websocketManager.getService();
+        setSubscriptionCount(service.getSubscriptionCount());
+      } catch (error) {
+        console.error('[useWebSocket] 구독 개수 업데이트 오류:', error);
       }
     }
   }, []);
@@ -146,11 +139,15 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
       connect();
     }
 
-    // 컴포넌트 언마운트 시 연결 해제
+    // 컴포넌트 언마운트 시 구독만 해제 (연결은 유지)
     return () => {
-      disconnect();
+      unsubscribersRef.current.forEach((unsubscribe) => {
+        unsubscribe();
+      });
+      unsubscribersRef.current.clear();
     };
-  }, [autoConnect, connect, disconnect]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoConnect]);
 
   return {
     isConnected,

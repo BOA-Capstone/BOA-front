@@ -4,6 +4,8 @@ import { Modal } from "../ui/modal";
 import { useStationStore } from "../../store/stationStore";
 import type { Charger } from "../../types/charger";
 import { scheduleTableByPort } from "../../constants/scheduleTable";
+import { useWebSocket } from "../../hooks/useWebSocket";
+import type { ChargerStatusMessage } from "../../services/websocketService";
 
 type ChargerStatus = "IDLE" | "CHARGING" | "FAULT";
 
@@ -11,7 +13,7 @@ type ChargerView = {
     id: number;
     name: string;
     status: ChargerStatus;
-    powerKw: number;
+    powerW: number;
     volt: number;
     amp: number;
     soc: number;
@@ -37,63 +39,66 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
     const stationName = stations.find((s) => s.id === stationId)?.name ?? `충전소 #${stationId}`;
     const chargers = chargersByStation[stationId] || [];
 
-    // 내부 표시용 상태(실데이터가 단순해도 카드에 필요한 값들 보강)
+    // 내부 표시용 상태 (WebSocket 실시간 데이터)
     const [rows, setRows] = useState<ChargerView[]>(() =>
-        chargers.map((c: Charger, i: number) => {
-            let status: ChargerStatus = "IDLE";
-            if (c.id === 1 || c.id === 4) status = "CHARGING";
-            return {
-                id: c.id ?? i + 1,
-                name: c.name ?? `충전기 ${i + 1}`,
-                status,
-                powerKw: Number(c.powerKw ?? 0),
-                volt: Number(c.volt ?? 0),
-                amp: Number(c.amp ?? 0),
-                soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
-                updatedAt: c.updatedAt ?? new Date().toISOString(),
-            };
-        })
+        chargers.map((c: Charger, i: number) => ({
+            id: c.id ?? i + 1,
+            name: c.name ?? `충전기 ${i + 1}`,
+            status: "IDLE" as ChargerStatus,
+            powerW: 0,
+            volt: 0,
+            amp: 0,
+            soc: 0,
+            updatedAt: new Date().toISOString(),
+        }))
     );
     // 각 포트별 info-modal 오픈 상태 관리
     const [openInfoModalId, setOpenInfoModalId] = useState<number | null>(null);
 
-    // 선택된 충전소가 바뀌거나, 3초마다 자동 갱신
+    // WebSocket 연결
+    const { isConnected, subscribe, unsubscribe } = useWebSocket({
+        url: import.meta.env.VITE_WEBSOCKET_SERVER_URL || '',
+        autoConnect: true,
+    });
+
+    // WebSocket 구독 (충전소 EV001의 1~5번 충전기)
     useEffect(() => {
-        const updateRows = () => {
-            const next = (chargersByStation[stationId] || []).map((c: Charger, i: number) => {
-                let status: ChargerStatus = "IDLE";
-                if (c.id === 1 || c.id === 4) status = "CHARGING";
-                // 1번, 4번 포트는 전력/전압/전류를 랜덤 갱신
-                let powerKw = Number(c.powerKw ?? 0);
-                let volt = Number(c.volt ?? 0);
-                let amp = Number(c.amp ?? 0);
-                if (c.id === 1) {
-                  powerKw = Math.round((40 + Math.random() * 20) * 10) / 10; // 40~60 kW
-                  volt = Math.round((350 + Math.random() * 50)); // 350~400 V
-                  amp = Math.round((15 + Math.random() * 10)); // 15~25 A
-                }
-                if (c.id === 4) {
-                  powerKw = Math.round((80 + Math.random() * 40) * 10) / 10; // 80~120 kW
-                  volt = Math.round((380 + Math.random() * 40)); // 380~420 V
-                  amp = Math.round((25 + Math.random() * 10)); // 25~35 A
-                }
-                return {
-                    id: c.id ?? i + 1,
-                    name: c.name ?? `충전기 ${i + 1}`,
-                    status,
-                    powerKw,
-                    volt,
-                    amp,
-                    soc: Number.isFinite(c.soc) ? Number(c.soc) : Math.round(Math.random() * 20),
-                    updatedAt: c.updatedAt ?? new Date().toISOString(),
-                };
+        if (!isConnected) return;
+
+        const stationIdStr = 'EV001'; // 실제 충전소 ID
+        const chargerNos = [1, 2, 3, 4, 5];
+
+        chargerNos.forEach((chargerNo) => {
+            const topic = `/topic/chargers/status/${stationIdStr}/${chargerNo}`;
+
+            subscribe(topic, (data: ChargerStatusMessage) => {
+                // 받은 데이터로 해당 충전기 상태 업데이트
+                setRows((prevRows) =>
+                    prevRows.map((row) =>
+                        row.id === data.chargerNo
+                            ? {
+                                  ...row,
+                                  status: data.charging ? 'CHARGING' : 'IDLE',
+                                  powerW: Math.round(data.power),
+                                  volt: Number(data.voltage.toFixed(2)),
+                                  amp: Number(data.current.toFixed(1)),
+                                  updatedAt: new Date(data.timeStamp * 1000).toISOString(),
+                              }
+                            : row
+                    )
+                );
             });
-            setRows(next);
+        });
+
+        // 컴포넌트 언마운트 시 구독 해제
+        return () => {
+            chargerNos.forEach((chargerNo) => {
+                const topic = `/topic/chargers/status/${stationIdStr}/${chargerNo}`;
+                unsubscribe(topic);
+            });
         };
-        updateRows();
-        const interval = setInterval(updateRows, 3000);
-        return () => clearInterval(interval);
-    }, [stationId, chargersByStation]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isConnected]);
 
 
     const online = useMemo(() => rows.filter((r) => r.status !== "FAULT").length, [rows]);
@@ -126,7 +131,7 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
                         </div>
 
                         <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                            <div className="bg-white/5 rounded-xl p-3">전력<div className="text-lg font-bold">{r.powerKw} kW</div></div>
+                            <div className="bg-white/5 rounded-xl p-3">전력<div className="text-lg font-bold">{r.powerW} W</div></div>
                             <div className="bg-white/5 rounded-xl p-3">전압<div className="text-lg font-bold">{r.volt} V</div></div>
                             <div className="bg-white/5 rounded-xl p-3">전류<div className="text-lg font-bold">{r.amp} A</div></div>
                         </div>

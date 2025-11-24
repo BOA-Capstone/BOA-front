@@ -170,13 +170,6 @@ export class StompWebSocketService {
     }
 
     return this.client.subscribe(topic, (message: IMessage) => {
-      // 원시 메시지 디버깅
-      console.log('[WebSocket] 원시 메시지 수신:', {
-        body: message.body,
-        headers: message.headers,
-        command: message.command,
-      });
-
       try {
         const data: ChargerStatusMessage = JSON.parse(message.body);
         handler(data);
