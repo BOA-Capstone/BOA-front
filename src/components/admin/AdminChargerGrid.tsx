@@ -73,20 +73,30 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
 
             subscribe(topic, (data: ChargerStatusMessage) => {
                 // 받은 데이터로 해당 충전기 상태 업데이트
-                setRows((prevRows) =>
-                    prevRows.map((row) =>
-                        row.id === data.chargerNo
-                            ? {
-                                  ...row,
-                                  status: data.charging ? 'CHARGING' : 'IDLE',
-                                  powerW: Math.round(data.power),
-                                  volt: Number(data.voltage.toFixed(2)),
-                                  amp: Number(data.current.toFixed(1)),
-                                  updatedAt: new Date(data.timeStamp * 1000).toISOString(),
-                              }
-                            : row
-                    )
-                );
+                setRows((prevRows) => {
+                    // 임시: power가 800W 이상이면 충전 중으로 간주
+                    const isCharging = data.power >= 800;
+
+                    // 임시: 1번과 5번의 실제 데이터를 결정 (서로 바꿈)
+                    let targetId = data.chargerNo;
+                    if (data.chargerNo === 1) targetId = 5;
+                    else if (data.chargerNo === 5) targetId = 1;
+
+                    return prevRows.map((row) => {
+                        // 임시: 1번 데이터는 5번에, 5번 데이터는 1번에 적용
+                        if (row.id === targetId) {
+                            return {
+                                ...row,
+                                powerW: Math.round(data.power),
+                                volt: Number(data.voltage.toFixed(2)),
+                                amp: Number(data.current.toFixed(1)),
+                                status: isCharging ? 'CHARGING' : 'IDLE',
+                                updatedAt: new Date(data.timeStamp * 1000).toISOString(),
+                            };
+                        }
+                        return row;
+                    });
+                });
             });
         });
 
