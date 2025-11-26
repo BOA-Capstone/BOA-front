@@ -3,8 +3,8 @@ import {
   type ChargerStatusMessage,
   type StompMessageHandler,
   type StompErrorHandler,
-} from '@/services/websocketService';
-import { websocketManager } from '@/services/websocketManager';
+} from '../services/websocketService';
+import { websocketManager } from '../services/websocketManager';
 
 interface UseWebSocketOptions {
   url: string;
@@ -139,12 +139,13 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
       connect();
     }
 
-    // 컴포넌트 언마운트 시 구독만 해제 (연결은 유지)
+    // cleanup에서 ref 값을 변수로 복사해서 사용
+    const unsubscribers = unsubscribersRef.current;
     return () => {
-      unsubscribersRef.current.forEach((unsubscribe) => {
+      unsubscribers.forEach((unsubscribe) => {
         unsubscribe();
       });
-      unsubscribersRef.current.clear();
+      unsubscribers.clear();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoConnect]);
