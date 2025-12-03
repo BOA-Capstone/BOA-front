@@ -70,7 +70,7 @@ const ChargeResultPage: React.FC = () => {
       >
         절감 원리 보기
       </Button>
-    <Button className="w-full mb-3" variant="secondary" onClick={() => setShowConfirm(true)}>충전하기</Button>
+    <Button className="w-full mb-3" variant="secondary" onClick={() => setShowConfirm(true)}>충전 요청하기</Button>
     <Button className="w-full" variant="secondary" onClick={() => navigate("/")}>메인으로 돌아가기</Button>
       <InfoModal
         open={showInfo}
@@ -103,8 +103,8 @@ const ChargeResultPage: React.FC = () => {
         className="bg-black/80 text-white rounded-2xl shadow-xl px-8 py-10"
       >
         <div className="text-center">
-          <h2 className="text-xl font-bold mb-4 text-white">충전을 시작할까요?</h2>
-          <div className="mb-6 text-slate-400">충전이 시작되면 <span className="font-bold">취소가 불가</span>합니다. 계속 진행하시겠습니까?</div>
+          <h2 className="text-xl font-bold mb-4 text-white">충전을 요청할까요?</h2>
+          <div className="mb-6 text-slate-400">충전 요청은 <span className="font-bold">취소가 불가</span>합니다. 계속 진행하시겠습니까?</div>
           <div className="flex gap-3 justify-center">
             <Button variant="secondary" onClick={() => setShowConfirm(false)}>취소</Button>
             <Button
