@@ -6,7 +6,7 @@ import { Modal } from "../components/ui/modal";
 import { useNavigate, useLocation } from "react-router-dom";
 import ChargeResultBarVertical from "../components/charge/ChargeResultBarVertical";
 import { useChargeStore } from "../store/chargeStore";
-import { useStationStore } from "../store/stationStore";
+//import { useStationStore } from "../store/stationStore";
 
 const ChargeResultPage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,12 +17,12 @@ const ChargeResultPage: React.FC = () => {
   const { currentSoc, targetSoc, arrivalTime, departureTime, mode } = state;
 
   // zustand에서 선택된 충전소/충전기 id 가져오기
-  const selectedStationId = useChargeStore(s => s.selectedStationId);
+  //const selectedStationId = useChargeStore(s => s.selectedStationId);
   const selectedChargerId = useChargeStore(s => s.selectedChargerId);
-  const setChargerStatus = useStationStore(s => s.setChargerStatus);
+  //const setChargerStatus = useStationStore(s => s.setChargerStatus);
 
   // location.state → zustand 순서로 fallback
-  const stationId = state.selectedStationId ?? selectedStationId;
+  //const stationId = state.selectedStationId ?? selectedStationId;
   const chargerId = state.selectedChargerId ?? selectedChargerId;
 
   // 포트별 결과: 있으면 CHARGER_RESULT_MAP, 없으면 DEFAULT_CHARGER_RESULT
@@ -110,10 +110,6 @@ const ChargeResultPage: React.FC = () => {
             <Button
               variant="secondary"
               onClick={() => {
-                // 충전 시작 시에만 상태를 CHARGING으로 변경
-                if (stationId && chargerId) {
-                  setChargerStatus(stationId, chargerId, 'CHARGING');
-                }
                 setShowConfirm(false);
                 navigate("/");
               }}

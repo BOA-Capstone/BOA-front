@@ -3,8 +3,9 @@ import { FaPlug } from 'react-icons/fa';
 import { Button } from '../ui/button';
 import { useStationStore } from '../../store/stationStore';
 import { useChargeStore } from '../../store/chargeStore';
+import { useWebSocket } from '../../hooks/useWebSocket';
+import type { ChargerStatusMessage } from '../../services/websocketService';
 import { Modal } from '../ui/modal';
-
 interface ChargerSelectCardProps {
   onBack?: () => void;
   onSelect?: () => void;
@@ -19,6 +20,7 @@ const statusColor = {
 const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect }) => {
   const chargersByStation = useStationStore(state => state.chargersByStation);
   const stations = useStationStore(state => state.stations);
+  const setChargerStatus = useStationStore(state => state.setChargerStatus);
   const selectedStationId = useChargeStore(state => state.selectedStationId);
   const selectedId = useChargeStore(state => state.selectedChargerId);
   const setCharger = useChargeStore(state => state.setCharger);
@@ -26,6 +28,45 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
   const stationName = selectedStation?.name;
   const chargers = chargersByStation[selectedStationId || 0] || [];
 
+  // 웹소켓 훅 선언
+  const { isConnected, subscribe, unsubscribe } = useWebSocket({
+    url: import.meta.env.VITE_WEBSOCKET_SERVER_URL || '',
+    autoConnect: true,
+  });
+
+  // 실시간 충전기 상태 변경 (웹소켓)
+  React.useEffect(() => {
+    if (!isConnected || !selectedStationId) return;
+
+    const stationIdStr = 'EV001'; // 실제 충전소 ID (고정)
+    const chargers = chargersByStation[selectedStationId] || [];
+    const chargerNos = chargers.map((c: { id: number }) => c.id);
+
+    chargerNos.forEach((chargerNo: number) => {
+      const topic = `/topic/chargers/status/${stationIdStr}/${chargerNo}`;
+      subscribe(topic, (data: ChargerStatusMessage) => {
+        // 임시: power가 800W 이상이면 충전 중으로 간주
+        const isCharging = data.power >= 800;
+
+        // 임시: 1번과 5번의 데이터를 서로 바꿈
+        let targetChargerNo = data.chargerNo;
+        if (data.chargerNo === 1) targetChargerNo = 5;
+        else if (data.chargerNo === 5) targetChargerNo = 1;
+
+        setChargerStatus(selectedStationId, targetChargerNo, isCharging ? 'CHARGING' : 'IDLE');
+      });
+    });
+
+    return () => {
+      chargerNos.forEach((chargerNo: number) => {
+        const topic = `/topic/chargers/status/${stationIdStr}/${chargerNo}`;
+        unsubscribe(topic);
+      });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected, selectedStationId]);
+
+  // 나머지 상태 및 핸들러
   const [infoOpen, setInfoOpen] = React.useState(false);
   const [infoType, setInfoType] = React.useState<'power' | 'inuse' | null>(null);
   const isBoa1 = stationName === '세종대 BOA 충전소' || selectedStationId === 1;
@@ -33,7 +74,7 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
   const [pendingCharger, setPendingCharger] = React.useState<number | null>(null);
 
   const handleChargerClick = (chargerId: number) => {
-    const charger = chargers.find(c => c.id === chargerId);
+    const charger = chargers.find((c: { id: number; status: string }) => c.id === chargerId);
     if (charger?.status === 'CHARGING') {
       setInfoType('inuse');
       setInfoOpen(true);
