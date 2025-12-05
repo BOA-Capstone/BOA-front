@@ -81,6 +81,8 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
                     let targetId = data.chargerNo;
                     if (data.chargerNo === 1) targetId = 5;
                     else if (data.chargerNo === 5) targetId = 1;
+                    else if (data.chargerNo === 2) targetId = 4;
+                    else if (data.chargerNo === 4) targetId = 2;
 
                     return prevRows.map((row) => {
                         // 임시: 1번 데이터는 5번에, 5번 데이터는 1번에 적용

@@ -52,6 +52,8 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
         let targetChargerNo = data.chargerNo;
         if (data.chargerNo === 1) targetChargerNo = 5;
         else if (data.chargerNo === 5) targetChargerNo = 1;
+        else if (data.chargerNo === 2) targetChargerNo = 4;
+        else if (data.chargerNo === 4) targetChargerNo = 2;
 
         setChargerStatus(selectedStationId, targetChargerNo, isCharging ? 'CHARGING' : 'IDLE');
       });
