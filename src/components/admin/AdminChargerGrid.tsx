@@ -136,7 +136,14 @@ const AdminChargerGrid: React.FC<AdminChargerGridProps> = ({ stationId, onBack }
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {rows.map((r) => (
-                    <div key={r.id} className="rounded-2xl p-4 bg-white/5 border border-white/10">
+                    <div
+                        key={r.id}
+                        className={`rounded-2xl p-4 bg-white/5 border-2 transition-all ${
+                            r.status === 'CHARGING'
+                                ? 'border-green-500 shadow-lg shadow-green-500/50 animate-pulse'
+                                : 'border-white/10'
+                        }`}
+                    >
                         <div className="flex items-center justify-between">
                             <div className="font-semibold">{r.name}</div>
                             <span className={`text-xs px-2 py-1 rounded-full ${badge(r.status)}`}>{r.status}</span>

@@ -124,8 +124,10 @@ const ChargerSelectCard: React.FC<ChargerSelectCardProps> = ({ onBack, onSelect 
         {chargers.map(charger => (
             <div
               key={charger.id}
-              className={`rounded-2xl p-4 bg-white/5 border transition-all cursor-pointer select-none
-                ${selectedId === charger.id ? 'border-[var(--cyan)] ring-2 ring-[var(--cyan)] bg-black/60' : 'border-white/10 hover:border-[var(--cyan)] hover:bg-black/40'}
+              className={`rounded-2xl p-4 bg-white/5 border-2 transition-all cursor-pointer select-none
+                ${selectedId === charger.id ? 'border-[var(--cyan)] ring-2 ring-[var(--cyan)] bg-black/60' :
+                  charger.status === 'CHARGING' ? 'border-green-500 shadow-lg shadow-green-500/50 animate-pulse hover:border-green-400' :
+                  'border-white/10 hover:border-[var(--cyan)] hover:bg-black/40'}
                 ${charger.status === 'FAULT' ? 'opacity-50 pointer-events-none' : ''}`}
               onClick={() => handleChargerClick(charger.id)}
             >
